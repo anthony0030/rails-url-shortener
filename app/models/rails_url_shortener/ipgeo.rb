@@ -26,6 +26,7 @@
 module RailsUrlShortener
   class Ipgeo < ApplicationRecord
     has_many :visits, dependent: :nullify
+    has_many :urls, through: :visits
 
     def update_from_remote
       @ip = HTTP.get("http://ip-api.com/json/#{ip}?fields=status,message,country,countryCode,region,regionName,city,zip,lat,lon,timezone,isp,org,as,mobile,proxy,hosting,query")
