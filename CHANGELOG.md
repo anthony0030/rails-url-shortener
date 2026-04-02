@@ -1,5 +1,17 @@
 # Changelog
 
+# [0.6.1](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.0...rails_url_shortener/v0.6.1) (2026-04-01)
+
+### Breaking Change
+
+* Rename find_by_key methods to find_url_by_key to avoid ActiveRecord dynamic finder conflicts.
+
+### Maintenance
+
+* Ignore .DS_Store system files
+* Add VS Code config file
+
+
 ## [0.6.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.5.0...rails_url_shortener/v0.6.0) (2025-10-20)
 
 
