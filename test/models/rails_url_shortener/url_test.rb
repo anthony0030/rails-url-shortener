@@ -58,11 +58,11 @@ module RailsUrlShortener
     end
 
     test 'find by key!' do
-      assert_equal rails_url_shortener_urls(:one), Url.find_by_key!(rails_url_shortener_urls(:one).key)
+      assert_equal rails_url_shortener_urls(:one), Url.find_url_by_key!(rails_url_shortener_urls(:one).key)
     end
 
     test 'find by key' do
-      assert_equal RailsUrlShortener.default_redirect, Url.find_by_key('not_exist').url
+      assert_equal RailsUrlShortener.default_redirect, Url.find_url_by_key('not_exist').url
     end
 
     test 'basic generate key' do

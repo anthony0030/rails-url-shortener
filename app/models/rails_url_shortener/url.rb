@@ -65,7 +65,7 @@ module RailsUrlShortener
     #
     # if the Url is not found an exception is raised
     ## TODO:  and pass query params
-    def self.find_by_key!(key, request: nil)
+    def self.find_url_by_key!(key, request: nil)
       # Get the token if not exipired
       url = Url.unexpired.find_by!(key: key)
       Visit.parse_and_save(url, request) unless request.nil?
@@ -78,8 +78,8 @@ module RailsUrlShortener
     # if the Url is not found the exception is rescue and
     # return a new url object with the default url
 
-    def self.find_by_key(key, request: nil)
-      find_by_key!(key, request: request)
+    def self.find_url_by_key(key, request: nil)
+      find_url_by_key!(key, request: request)
     rescue ActiveRecord::RecordNotFound
       Url.new(
         url: RailsUrlShortener.default_redirect || '/',

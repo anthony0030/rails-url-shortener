@@ -105,7 +105,7 @@ By default, the engine saves all requests made to your short URLs. You can use t
 1. Get visits for a specific URL:
 
 ```ruby
-RailsUrlShortener::Url.find_by_key("key").visits
+RailsUrlShortener::Url.find_url_by_key("key").visits
 ```
 
 2. Get all visits:
