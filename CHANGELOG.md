@@ -1,5 +1,15 @@
 # Changelog
 
+# [0.6.2](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.1...rails_url_shortener/v0.6.2) (2026-04-02)
+
+### Features
+
+* Add direct association: Ipgeo has_many :urls, through: :visits.
+
+### Maintenance
+
+* Ignore built gem files (*.gem) in .gitignore.
+
 # [0.6.1](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.0...rails_url_shortener/v0.6.1) (2026-04-01)
 
 ### Breaking Change
