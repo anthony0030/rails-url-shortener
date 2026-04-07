@@ -64,9 +64,9 @@ module RailsUrlShortener
     # find a Url object by the key param
     #
     # if the Url is not found an exception is raised
-    ## TODO:  and pass query params
+    ## TODO: and pass query params
     def self.find_url_by_key!(key, request: nil)
-      # Get the token if not exipired
+      # Get the token if not expired
       url = Url.unexpired.find_by!(key: key)
       Visit.parse_and_save(url, request) unless request.nil?
       url

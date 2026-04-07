@@ -7,9 +7,9 @@ CHARSETS = {
 }.freeze
 
 RailsUrlShortener.host = ENV['HOST'] || 'localhost:3000' # the host used for the helper.
-RailsUrlShortener.default_redirect = '/'            # where the users are redirect if the link is not found.
-RailsUrlShortener.charset = CHARSETS[:alphanumcase] # used for generate the keys, better long.
-RailsUrlShortener.key_length = 6                    # Key length for random generator
-RailsUrlShortener.minimum_key_length = 3            # minimum permited for a key
-RailsUrlShortener.save_bots_visits = false          # if save bots visits
-RailsUrlShortener.save_visits = true                # if save visits
+RailsUrlShortener.default_redirect = '/'                 # where the users are redirect if the link is not found.
+RailsUrlShortener.charset = CHARSETS[:alphanumcase]      # used for generate the keys, better long.
+RailsUrlShortener.key_length = 6                         # Key length for random generator
+RailsUrlShortener.minimum_key_length = 3                 # minimum permitted for a key
+RailsUrlShortener.save_bots_visits = false               # if save bots visits
+RailsUrlShortener.save_visits = true                     # if save visits
