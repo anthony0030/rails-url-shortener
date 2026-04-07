@@ -1,5 +1,17 @@
 # Changelog
 
+# [0.6.3](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.1...rails_url_shortener/v0.6.3) (2026-04-07)
+
+### Features
+
+* Adds protocal output to to_short_url
+* Adds secure option to to_short_url
+
+### Maintenance
+
+* Fix typos and alignments
+
+
 # [0.6.2](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.1...rails_url_shortener/v0.6.2) (2026-04-02)
 
 ### Features
