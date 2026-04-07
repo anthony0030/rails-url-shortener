@@ -94,9 +94,19 @@ module RailsUrlShortener
       assert_equal url.errors.first.type, :taken
     end
 
-    test 'to short url' do
+    test 'to short url without secure option' do
       url = Url.generate('https://github.com/a-chacon/rails_url_shortener', key: 'aE1111')
-      assert_equal url.to_short_url, "#{RailsUrlShortener.host}/shortener/aE1111"
+      assert_equal url.to_short_url, "https://#{RailsUrlShortener.host}/shortener/aE1111"
+    end
+
+    test 'to short url with secure true' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', key: 'aE1111')
+      assert_equal url.to_short_url(secure: true), "https://#{RailsUrlShortener.host}/shortener/aE1111"
+    end
+
+    test 'to short url with secure false' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', key: 'aE1111')
+      assert_equal url.to_short_url(secure: false), "http://#{RailsUrlShortener.host}/shortener/aE1111"
     end
   end
 end

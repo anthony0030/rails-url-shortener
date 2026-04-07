@@ -90,8 +90,12 @@ module RailsUrlShortener
     ##
     # Function for help to build the full short url when you have the object.
     #
-    def to_short_url
-      RailsUrlShortener.host + Rails.application.routes.url_helpers.rails_url_shortener_path + "/#{key}"
+    def to_short_url(secure: true)
+      protocol = secure ? 'https://' : 'http://'
+      host = RailsUrlShortener.host
+      path = Rails.application.routes.url_helpers.rails_url_shortener_path
+
+      [protocol, host, path, "/#{key}"].reject { _1 == '/' }.join
     end
 
     private
