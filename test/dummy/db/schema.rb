@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_16_083609) do
+ActiveRecord::Schema[7.2].define(version: 2026_04_16_083610) do
   create_table "rails_url_shortener_ipgeos", force: :cascade do |t|
     t.string "ip"
     t.string "country"
@@ -42,7 +42,6 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_16_083609) do
     t.datetime "updated_at", null: false
     t.string "kind"
     t.index ["owner_type", "owner_id", "kind"], name: "index_urls_on_owner_and_kind"
-    t.index ["owner_type", "owner_id"], name: "index_rails_url_shortener_urls_on_owner"
   end
 
   create_table "rails_url_shortener_visits", force: :cascade do |t|
