@@ -135,6 +135,22 @@ module RailsUrlShortener
       update!(paused: false)
     end
 
+    ##
+    # Returns the current status of the URL as a symbol.
+    #
+    # :paused   - URL is manually paused
+    # :expired  - URL has passed its expires_at time
+    # :upcoming - URL has not yet reached its starts_at time
+    # :active   - URL is live and resolving
+    #
+    def status
+      return :paused   if paused?
+      return :expired  if expires_at.present? && expires_at <= ::Time.current
+      return :upcoming if starts_at.present? && starts_at > ::Time.current
+
+      :active
+    end
+
     private
 
     def key_candidate

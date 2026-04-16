@@ -1,4 +1,10 @@
 
+# [0.6.7](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.6...rails_url_shortener/v0.6.7) (2026-04-16)
+
+### Features
+
+* Add `status` method on `Url` returning `:paused`, `:expired`, `:upcoming`, or `:active`
+
 # [0.6.6](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.5...rails_url_shortener/v0.6.6) (2026-04-16)
 
 ### Features

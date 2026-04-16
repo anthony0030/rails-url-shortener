@@ -104,6 +104,13 @@ RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at:
 
 ### Data Collection
 
+You can check the current status of any URL:
+
+```ruby
+url = RailsUrlShortener::Url.find_by(key: 'abc123')
+url.status # => :active, :paused, :upcoming, or :expired
+```
+
 By default, the engine saves all requests made to your short URLs. You can use this data for analytics or IP logging. To access the data:
 
 1. Get visits for a specific URL:

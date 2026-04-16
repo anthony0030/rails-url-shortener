@@ -182,5 +182,63 @@ module RailsUrlShortener
         Url.find_url_by_key!(url.key)
       end
     end
+
+    test 'status returns :paused when paused' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener')
+      url.pause!
+      assert_equal :paused, url.status
+    end
+
+    test 'status returns :expired when past expires_at' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', expires_at: Time.now - 1.hour)
+      assert_equal :expired, url.status
+    end
+
+    test 'status returns :upcoming when before starts_at' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', starts_at: Time.now + 1.hour)
+      assert_equal :upcoming, url.status
+    end
+
+    test 'status returns :active for normal url' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener')
+      assert_equal :active, url.status
+    end
+
+    test 'status returns :active when within starts_at and expires_at' do
+      url = Url.generate(
+        'https://github.com/a-chacon/rails_url_shortener',
+        starts_at: Time.now - 1.hour,
+        expires_at: Time.now + 1.hour
+      )
+      assert_equal :active, url.status
+    end
+
+    test 'status paused takes priority over expired' do
+      url = Url.generate(
+        'https://github.com/a-chacon/rails_url_shortener',
+        expires_at: Time.now - 1.hour,
+        paused: true
+      )
+      assert_equal :paused, url.status
+    end
+
+    test 'status paused takes priority over upcoming' do
+      url = Url.generate(
+        'https://github.com/a-chacon/rails_url_shortener',
+        starts_at: Time.now + 1.hour,
+        paused: true
+      )
+      assert_equal :paused, url.status
+    end
+
+    test 'status returns :paused when within starts_at and expires_at and paused' do
+      url = Url.generate(
+        'https://github.com/a-chacon/rails_url_shortener',
+        starts_at: Time.now - 1.hour,
+        expires_at: Time.now + 1.hour,
+        paused: true
+      )
+      assert_equal :paused, url.status
+    end
   end
 end
