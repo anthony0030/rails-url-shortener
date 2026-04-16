@@ -8,8 +8,10 @@
 #  browser_version  :string
 #  ip               :string
 #  meta             :text
+#  params           :text
 #  platform         :string
 #  platform_version :string
+#  referer          :string           default("")
 #  user_agent       :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -61,6 +63,21 @@ module RailsUrlShortener
       assert visit.platform, Browser.new(request.user_agent).platform.name
       assert visit.platform_version, Browser.new(request.user_agent).platform.version
       assert visit.referer, request.headers['Referer']
+    end
+
+    test 'parse and save captures query params' do
+      request = ActionDispatch::TestRequest.create(Rack::MockRequest.env_for('/?source=qr&campaign=summer',
+                                                                             'HTTP_HOST' => 'test.host'.b,
+                                                                             'REMOTE_ADDR' => '1.0.0.0'.b,
+                                                                             'HTTP_USER_AGENT' => 'Rails Testing'.b))
+      request.user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1 Safari/605.1.15'
+      visit = nil
+      assert_enqueued_with(job: IpCrawlerJob) do
+        visit = Visit.parse_and_save(rails_url_shortener_urls(:one), request)
+      end
+      parsed = JSON.parse(visit.params)
+      assert_equal 'qr', parsed['source']
+      assert_equal 'summer', parsed['campaign']
     end
 
     test "don't save bots" do

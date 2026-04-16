@@ -20,6 +20,7 @@ Here are some of the things you can do with RailsUrlShortener:
 * Provide a controller method that finds, saves request information, and performs a 301 redirect to the original URL
 * Associate short links with models in your app
 * Save browser, system, and IP data from each request
+* Track query parameters (e.g., `source`, `campaign`) from short URL visits
 * Create scheduled links using the starts_at option
 * Create temporary short links using the expires_at option
 * Pause and unpause links on demand
@@ -109,6 +110,21 @@ You can check the current status of any URL:
 ```ruby
 url = RailsUrlShortener::Url.find_by(key: 'abc123')
 url.status # => :active, :paused, :upcoming, or :expired
+```
+
+You can append tracking parameters to short URLs:
+
+```ruby
+url = RailsUrlShortener::Url.find_by(key: 'abc123')
+url.to_short_url(params: { source: 'qr' })       # => "https://host/shortener/abc123?source=qr"
+url.to_short_url(params: { source: 'nfc' })       # => "https://host/shortener/abc123?source=nfc"
+```
+
+When a user visits a short URL with query parameters, they are automatically logged in the visit record as JSON:
+
+```ruby
+visit = RailsUrlShortener::Visit.last
+JSON.parse(visit.params) # => { "source" => "qr" }
 ```
 
 By default, the engine saves all requests made to your short URLs. You can use this data for analytics or IP logging. To access the data:

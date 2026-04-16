@@ -10,8 +10,10 @@
 #  browser_version  :string
 #  ip               :string
 #  meta             :text
+#  params           :text
 #  platform         :string
 #  platform_version :string
+#  referer          :string           default("")
 #  user_agent       :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
@@ -49,7 +51,8 @@ module RailsUrlShortener
         platform_version: @browser.platform.version,
         bot: @browser.bot?,
         user_agent: request.headers['User-Agent'],
-        referer: request.headers['Referer']
+        referer: request.headers['Referer'],
+        params: request.query_parameters.except(:key).to_json.presence
       )
 
       IpCrawlerJob.perform_later(visit)

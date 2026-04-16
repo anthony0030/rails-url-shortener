@@ -28,5 +28,20 @@ module RailsUrlShortener
         end
       end
     end
+
+    test 'show with query params logs params in visit' do
+      assert_difference 'Visit.count', 1 do
+        assert_enqueued_with(job: IpCrawlerJob) do
+          get "/shortener/#{rails_url_shortener_urls(:one).key}?source=qr&campaign=summer", headers: {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+          }
+          assert_response :moved_permanently
+        end
+      end
+      visit = Visit.last
+      parsed = JSON.parse(visit.params)
+      assert_equal 'qr', parsed['source']
+      assert_equal 'summer', parsed['campaign']
+    end
   end
 end

@@ -1,4 +1,12 @@
 
+# [0.6.8](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.7...rails_url_shortener/v0.6.8) (2026-04-16)
+
+### Features
+
+* Add `params` option to `to_short_url` for appending query parameters (e.g., `source`, `campaign`)
+* Log query parameters from short URL visits in the `params` column on `Visit`
+* Add migration for `params` text column on `rails_url_shortener_visits`
+
 # [0.6.7](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.6...rails_url_shortener/v0.6.7) (2026-04-16)
 
 ### Features

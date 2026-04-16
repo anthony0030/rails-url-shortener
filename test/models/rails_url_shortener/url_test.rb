@@ -8,6 +8,7 @@
 #  key        :string(10)       not null
 #  kind       :string
 #  owner_type :string
+#  paused     :boolean          default(FALSE), not null
 #  starts_at  :datetime
 #  url        :text             not null
 #  created_at :datetime         not null
@@ -133,6 +134,25 @@ module RailsUrlShortener
     test 'to short url with secure false' do
       url = Url.generate('https://github.com/a-chacon/rails_url_shortener', key: 'aE1111')
       assert_equal url.to_short_url(secure: false), "http://#{RailsUrlShortener.host}/shortener/aE1111"
+    end
+
+    test 'to short url with params' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', key: 'aE1111')
+      assert_equal url.to_short_url(params: { source: 'qr' }), "https://#{RailsUrlShortener.host}/shortener/aE1111?source=qr"
+    end
+
+    test 'to short url with multiple params' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', key: 'aE1111')
+      short = url.to_short_url(params: { source: 'nfc', campaign: 'summer' })
+      uri = URI.parse(short)
+      parsed_params = Rack::Utils.parse_query(uri.query)
+      assert_equal parsed_params['source'], 'nfc'
+      assert_equal parsed_params['campaign'], 'summer'
+    end
+
+    test 'to short url with empty params' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', key: 'aE1111')
+      assert_equal url.to_short_url(params: {}), "https://#{RailsUrlShortener.host}/shortener/aE1111"
     end
 
     test 'paused url is not found by find_url_by_key!' do

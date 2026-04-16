@@ -8,8 +8,10 @@
 #  browser_version  :string
 #  ip               :string
 #  meta             :text
+#  params           :text
 #  platform         :string
 #  platform_version :string
+#  referer          :string           default("")
 #  user_agent       :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
