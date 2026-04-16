@@ -22,6 +22,7 @@ Here are some of the things you can do with RailsUrlShortener:
 * Save browser, system, and IP data from each request
 * Create scheduled links using the starts_at option
 * Create temporary short links using the expires_at option
+* Pause and unpause links on demand
 * Get IP data from a third-party service
 
 ## Installation
@@ -81,7 +82,7 @@ RailsUrlShortener::Url.generate("https://www.github.com/a-chacon/rails-url-short
 Full params for the short_url helper:
 
 ```ruby
-short_url(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, category: nil, url_options: {})
+short_url(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, url_options: {})
 ```
 
 Where:
@@ -91,13 +92,14 @@ Where:
 * **key**: A custom key for the short URL (optional)
 * **starts_at**: Scheduled datetime (before which the redirect won't work)
 * **expires_at**: Expiration datetime (after which the redirect won't work)
+* **paused**: Boolean to pause the URL (overrides starts_at/expires_at, default: false)
 * **category**: A tag for categorizing the link
 * **url_options**: Options for the URL generator (e.g., subdomain or protocol)
 
 The `generate` model method accepts the same parameters except for `url_options`:
 
 ```ruby
-RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, category: nil)
+RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil)
 ```
 
 ### Data Collection

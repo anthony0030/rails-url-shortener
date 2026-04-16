@@ -134,5 +134,53 @@ module RailsUrlShortener
       url = Url.generate('https://github.com/a-chacon/rails_url_shortener', key: 'aE1111')
       assert_equal url.to_short_url(secure: false), "http://#{RailsUrlShortener.host}/shortener/aE1111"
     end
+
+    test 'paused url is not found by find_url_by_key!' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener')
+      url.pause!
+      assert_raises(ActiveRecord::RecordNotFound) do
+        Url.find_url_by_key!(url.key)
+      end
+    end
+
+    test 'paused url returns default redirect via find_url_by_key' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener')
+      url.pause!
+      result = Url.find_url_by_key(url.key)
+      assert_equal RailsUrlShortener.default_redirect, result.url
+    end
+
+    test 'pause! sets paused to true' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener')
+      assert_not url.paused
+      url.pause!
+      assert url.reload.paused
+    end
+
+    test 'unpause! sets paused to false' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', paused: true)
+      assert url.paused
+      url.unpause!
+      assert_not url.reload.paused
+    end
+
+    test 'unpaused url is found by find_url_by_key!' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener')
+      url.pause!
+      url.unpause!
+      assert_equal url, Url.find_url_by_key!(url.key)
+    end
+
+    test 'paused overrides starts_at and expires_at' do
+      url = Url.generate(
+        'https://github.com/a-chacon/rails_url_shortener',
+        starts_at: Time.now - 1.hour,
+        expires_at: Time.now + 1.hour,
+        paused: true
+      )
+      assert_raises(ActiveRecord::RecordNotFound) do
+        Url.find_url_by_key!(url.key)
+      end
+    end
   end
 end

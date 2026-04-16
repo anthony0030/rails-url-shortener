@@ -8,7 +8,7 @@ module RailsUrlShortener
     # this method return a short url or the original url if something is bad
     # Usage:
     # short_url("https://tools.ietf.org/search/rfc2616#section-5.3")
-    def short_url(url, owner: nil, key: nil, kind: nil, starts_at: nil,  expires_at: nil, category: nil, url_options: {})
+    def short_url(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, url_options: {})
       # generate
       url_object = Url.generate(
         url,
@@ -17,6 +17,7 @@ module RailsUrlShortener
         kind: kind,
         starts_at: starts_at,
         expires_at: expires_at,
+        paused: paused,
         category: category
       )
 

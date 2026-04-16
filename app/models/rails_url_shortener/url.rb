@@ -10,6 +10,7 @@
 #  key        :string(10)       not null
 #  kind       :string
 #  owner_type :string
+#  paused     :boolean          default(FALSE), not null
 #  starts_at  :datetime
 #  url        :text             not null
 #  created_at :datetime         not null
@@ -40,8 +41,11 @@ module RailsUrlShortener
     # exclude records in which expiration time is set and expiration time is greater than current time
     scope :unexpired, -> { where(arel_table[:expires_at].eq(nil).or(arel_table[:expires_at].gt(::Time.current))) }
 
-    # combine both scopes for active URLs
-    scope :active, -> { started.unexpired }
+    scope :paused,   -> { where(paused: true) }
+    scope :unpaused, -> { where(paused: false) }
+
+    # combine all scopes for active URLs
+    scope :active, -> { started.unexpired.unpaused }
 
     after_initialize :set_attr
     # callbacks
@@ -59,7 +63,7 @@ module RailsUrlShortener
     #
     # if something is wrong return the object with errors
 
-    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, category: nil)
+    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, paused: false, category: nil)
       create(
         url: url,
         owner: owner,
@@ -67,6 +71,7 @@ module RailsUrlShortener
         kind: kind,
         starts_at: starts_at,
         expires_at: expires_at,
+        paused: paused,
         category: category
       )
     end
@@ -114,6 +119,20 @@ module RailsUrlShortener
     #
     def owned?
       owner_type.present? && owner_id.present?
+    end
+
+    ##
+    # Pause this URL, preventing it from resolving
+    #
+    def pause!
+      update!(paused: true)
+    end
+
+    ##
+    # Unpause this URL, allowing it to resolve again
+    #
+    def unpause!
+      update!(paused: false)
     end
 
     private

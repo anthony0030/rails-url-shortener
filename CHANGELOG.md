@@ -1,4 +1,14 @@
 
+# [0.6.6](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.5...rails_url_shortener/v0.6.6) (2026-04-16)
+
+### Features
+
+* Add `paused` boolean to URLs, overriding `starts_at` and `expires_at` when true
+* Add `pause!` and `unpause!` instance methods on `Url`
+* Add `paused` and `unpaused` scopes
+* Include `unpaused` in the `active` scope
+* Add `paused` parameter to `Url.generate` and `short_url` helper
+
 # [0.6.5](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.4...rails_url_shortener/v0.6.5) (2026-04-16)
 
 ### Features
