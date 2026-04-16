@@ -1,3 +1,5 @@
 class User < ApplicationRecord
-  has_short_urls
+  include RailsUrlShortener::Shortenable
+
+  has_short_url :url
 end

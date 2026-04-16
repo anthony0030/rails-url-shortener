@@ -80,7 +80,7 @@ RailsUrlShortener::Url.generate("https://www.github.com/a-chacon/rails-url-short
 Full params for the short_url helper:
 
 ```ruby
-short_url(url, owner: nil, key: nil, expires_at: nil, category: nil, url_options: {})
+short_url(url, owner: nil, kind: nil, key: nil, expires_at: nil, category: nil, url_options: {})
 ```
 
 Where:
@@ -95,7 +95,7 @@ Where:
 The `generate` model method accepts the same parameters except for `url_options`:
 
 ```ruby
-RailsUrlShortener::Url.generate(url, owner: nil, key: nil, expires_at: nil, category: nil)
+RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, expires_at: nil, category: nil)
 ```
 
 ### Data Collection
@@ -123,6 +123,63 @@ RailsUrlShortener::Visit.first.ipgeo
 ### IP Data Collection
 
 When a Visit record is created, a background job is enqueued to fetch IP data from the [ip-api.com](https://ip-api.com/) service and create an Ipgeo record. This uses the free endpoint, which has a limit of 45 different IPs per minute. If you expect higher traffic, you'll need to implement an alternative solution.
+
+### Model Integration
+
+You can associate short URLs with your models using the provided `Shortenable` concern.
+
+```ruby
+include RailsUrlShortener::Shortenable
+
+has_short_url :guidebook, dependent: :nullify
+has_short_urls :promo_links, dependent: :destroy
+```
+
+The `:name`
+
+* defines both the association name and the internal `kind` used for grouping URLs
+
+The `dependent` option
+
+* `dependent: :nullify` → Removes ownership but keeps records (default)
+* `dependent: :destroy` → Deletes associated short URLs when parent is destroyed
+* Any other standard Rails association `dependent` option
+
+### Guidebook example
+
+```ruby
+class Accommodation < ApplicationRecord
+  include RailsUrlShortener::Shortenable
+
+  has_short_url :guidebook
+end
+```
+
+```ruby
+accommodation = Accommodation.first
+
+accommodation.guidebook # => <RailsUrlShortener::Url>
+accommodation.guidebook_short_url # => "https://..."
+accommodation.has_guidebook? # => true / false
+```
+
+### Promo links example
+
+```ruby
+class Campaign < ApplicationRecord
+  include RailsUrlShortener::Shortenable
+
+  has_short_urls :promo_links
+end
+```
+
+```ruby
+campaign = Campaign.first
+
+campaign.promo_links # => [<RailsUrlShortener::Url>, ...]
+campaign.promo_links_short_urls # => ["https://...", "https://..."]
+campaign.has_promo_links? # => true / false
+```
 
 ## Contributing
 

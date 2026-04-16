@@ -14,7 +14,7 @@ module RailsUrlShortener
 
     test 'generate url with owner' do
       url = 'https://www.github.com/a-chacon/rails_url_shortener/asdss'
-      assert_equal short_url(url, owner: users(:one)), "http://test.host/shortener/#{Url.where(url: url).first.key}"
+      assert_equal short_url(url, owner: users(:one), kind: 'url'), "http://test.host/shortener/#{Url.where(url: url).first.key}"
       assert_equal Url.where(url: url).first.owner, users(:one)
     end
 

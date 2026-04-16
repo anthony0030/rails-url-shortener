@@ -1,3 +1,15 @@
+
+# [0.6.4](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.3...rails_url_shortener/v0.6.4) (2026-04-16)
+
+### Features
+
+* Add has_short_url concern for has_many association (multiple short URLs per owner)
+* Add dependent option override for has_short_url and has_short_url associations
+
+### Documentation
+
+* Update README with examples for customizing association names and dependent option
+
 # Changelog
 
 # [0.6.3](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.1...rails_url_shortener/v0.6.3) (2026-04-07)

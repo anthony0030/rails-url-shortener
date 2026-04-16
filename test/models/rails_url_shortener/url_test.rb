@@ -6,6 +6,7 @@
 #  category   :string
 #  expires_at :datetime
 #  key        :string(10)       not null
+#  kind       :string
 #  owner_type :string
 #  url        :text             not null
 #  created_at :datetime         not null

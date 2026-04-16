@@ -8,6 +8,7 @@
 #  category   :string
 #  expires_at :datetime
 #  key        :string(10)       not null
+#  kind       :string
 #  owner_type :string
 #  url        :text             not null
 #  created_at :datetime         not null
@@ -30,6 +31,7 @@ module RailsUrlShortener
     # validations
     validates :key, presence: true, length: { minimum: RailsUrlShortener.minimum_key_length }, uniqueness: true
     validates :url, presence: true, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
+    validates :kind, presence: true, if: :owned?
 
     # exclude records in which expiration time is set and expiration time is greater than current time
     scope :unexpired, -> { where(arel_table[:expires_at].eq(nil).or(arel_table[:expires_at].gt(::Time.current))) }
@@ -50,11 +52,12 @@ module RailsUrlShortener
     #
     # if something is wrong return the object with errors
 
-    def self.generate(url, owner: nil, key: nil, expires_at: nil, category: nil)
+    def self.generate(url, owner: nil, key: nil, kind: nil, expires_at: nil, category: nil)
       create(
         url: url,
         owner: owner,
         key: key,
+        kind: kind,
         expires_at: expires_at,
         category: category
       )
@@ -96,6 +99,13 @@ module RailsUrlShortener
       path = Rails.application.routes.url_helpers.rails_url_shortener_path
 
       [protocol, host, path, "/#{key}"].reject { _1 == '/' }.join
+    end
+
+    ##
+    # Function to determin if there is an owner
+    #
+    def owned?
+      owner_type.present? && owner_id.present?
     end
 
     private
