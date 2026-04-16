@@ -23,6 +23,12 @@ module RailsUrlShortener
       assert_equal short_url(url, key: 'asd'), "http://test.host/shortener/#{Url.where(url: url).first.key}"
     end
 
+    test 'generate url with starts at' do
+      url = 'https://www.github.com/a-chacon/rails_url_shortener/asdss'
+      assert_equal short_url(url, starts_at: Time.now - 1.hour), "http://test.host/shortener/#{Url.where(url: url).first.key}"
+      assert_equal Url.where(url: url).first.starts_at.utc.ceil, (Time.now.utc - 1.hour).ceil
+    end
+
     test 'generate url with expires at' do
       url = 'https://www.github.com/a-chacon/rails_url_shortener/asdss'
       assert_equal short_url(url, expires_at: Time.now + 2.hours),

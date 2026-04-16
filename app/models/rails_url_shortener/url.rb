@@ -10,6 +10,7 @@
 #  key        :string(10)       not null
 #  kind       :string
 #  owner_type :string
+#  starts_at  :datetime
 #  url        :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -33,8 +34,14 @@ module RailsUrlShortener
     validates :url, presence: true, format: URI::DEFAULT_PARSER.make_regexp(%w[http https])
     validates :kind, presence: true, if: :owned?
 
+    # exclude records where starts_at is set and is in the future
+    scope :started, -> { where(arel_table[:starts_at].eq(nil).or(arel_table[:starts_at].lteq(::Time.current))) }
+
     # exclude records in which expiration time is set and expiration time is greater than current time
     scope :unexpired, -> { where(arel_table[:expires_at].eq(nil).or(arel_table[:expires_at].gt(::Time.current))) }
+
+    # combine both scopes for active URLs
+    scope :active, -> { started.unexpired }
 
     after_initialize :set_attr
     # callbacks
@@ -52,12 +59,13 @@ module RailsUrlShortener
     #
     # if something is wrong return the object with errors
 
-    def self.generate(url, owner: nil, key: nil, kind: nil, expires_at: nil, category: nil)
+    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, category: nil)
       create(
         url: url,
         owner: owner,
         key: key,
         kind: kind,
+        starts_at: starts_at,
         expires_at: expires_at,
         category: category
       )
@@ -69,8 +77,8 @@ module RailsUrlShortener
     # if the Url is not found an exception is raised
     ## TODO: and pass query params
     def self.find_url_by_key!(key, request: nil)
-      # Get the token if not expired
-      url = Url.unexpired.find_by!(key: key)
+      # Get the token if active (started and not expired)
+      url = Url.active.find_by!(key: key)
       Visit.parse_and_save(url, request) unless request.nil?
       url
     end

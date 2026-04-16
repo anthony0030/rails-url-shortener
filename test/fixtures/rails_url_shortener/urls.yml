@@ -8,6 +8,7 @@
 #  key        :string(10)       not null
 #  kind        :string
 #  owner_type :string
+#  starts_at  :datetime
 #  url        :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

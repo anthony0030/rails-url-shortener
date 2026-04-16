@@ -1,4 +1,13 @@
 
+# [0.6.5](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.4...rails_url_shortener/v0.6.5) (2026-04-16)
+
+### Features
+
+* Add `starts_at` option to schedule short URLs with a future activation date
+* Add `started` scope to filter URLs that have reached their start time
+* Add `active` scope combining `started` and `unexpired` for convenience
+* Add `kind` parameter to `Url.generate` and `short_url` helper
+
 # [0.6.4](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.3...rails_url_shortener/v0.6.4) (2026-04-16)
 
 ### Features

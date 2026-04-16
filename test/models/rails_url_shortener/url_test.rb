@@ -8,6 +8,7 @@
 #  key        :string(10)       not null
 #  kind       :string
 #  owner_type :string
+#  starts_at  :datetime
 #  url        :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
@@ -72,6 +73,30 @@ module RailsUrlShortener
       assert_equal url.key, Url.last.key
       assert_equal url.url, 'https://github.com/a-chacon/rails_url_shortener'
       assert_equal url.expires_at.utc.ceil, (Time.now.utc.ceil + 1.hour)
+    end
+
+    test 'generate with starts_at' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', starts_at: Time.now + 1.hour)
+      assert url.persisted?
+      assert_equal url.starts_at.utc.ceil, (Time.now.utc + 1.hour).ceil
+    end
+
+    test 'find by key! excludes not yet started urls' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', starts_at: Time.now + 1.hour)
+      assert_raises(ActiveRecord::RecordNotFound) do
+        Url.find_url_by_key!(url.key)
+      end
+    end
+
+    test 'find by key! includes started urls' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', starts_at: Time.now - 1.hour)
+      assert_equal url, Url.find_url_by_key!(url.key)
+    end
+
+    test 'find by key returns default for not yet started urls' do
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', starts_at: Time.now + 1.hour)
+      result = Url.find_url_by_key(url.key)
+      assert_equal RailsUrlShortener.default_redirect, result.url
     end
 
     test 'custom key generate' do
