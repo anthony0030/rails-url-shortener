@@ -46,6 +46,10 @@ module RailsUrlShortener
   ##
   # if true, the key column on Url cannot be updated after creation
   mattr_accessor :disable_url_key_updates, default: false
+
+  ##
+  # if true, query parameters from the short URL request are forwarded to the redirect destination
+  mattr_accessor :forward_query_params, default: false
 end
 
 ActiveSupport.on_load(:active_record) do

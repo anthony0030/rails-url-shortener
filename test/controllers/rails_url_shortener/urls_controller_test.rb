@@ -43,5 +43,57 @@ module RailsUrlShortener
       assert_equal 'qr', parsed['source']
       assert_equal 'summer', parsed['campaign']
     end
+
+    test 'show does not forward query params when forward_query_params is false' do
+      RailsUrlShortener.forward_query_params = false
+      get "/shortener/#{rails_url_shortener_urls(:one).key}?utm_source=twitter", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+      }
+      assert_response :moved_permanently
+      assert_redirected_to rails_url_shortener_urls(:one).url
+    end
+
+    test 'show forwards query params when forward_query_params is true' do
+      RailsUrlShortener.forward_query_params = true
+      get "/shortener/#{rails_url_shortener_urls(:one).key}?utm_source=twitter&utm_campaign=spring", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+      }
+      assert_response :moved_permanently
+      location = response.headers['Location']
+      uri = URI.parse(location)
+      query = Rack::Utils.parse_query(uri.query)
+      assert_equal 'twitter', query['utm_source']
+      assert_equal 'spring', query['utm_campaign']
+    ensure
+      RailsUrlShortener.forward_query_params = false
+    end
+
+    test 'show forwards query params and merges with existing destination params' do
+      # Create a URL with query params already in the destination
+      url = Url.generate('https://example.com/page?existing=yes')
+      RailsUrlShortener.forward_query_params = true
+      get "/shortener/#{url.key}?added=true", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+      }
+      assert_response :moved_permanently
+      location = response.headers['Location']
+      uri = URI.parse(location)
+      query = Rack::Utils.parse_query(uri.query)
+      assert_equal 'yes', query['existing']
+      assert_equal 'true', query['added']
+    ensure
+      RailsUrlShortener.forward_query_params = false
+    end
+
+    test 'show with forward_query_params true but no query params redirects normally' do
+      RailsUrlShortener.forward_query_params = true
+      get "/shortener/#{rails_url_shortener_urls(:one).key}", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+      }
+      assert_response :moved_permanently
+      assert_redirected_to rails_url_shortener_urls(:one).url
+    ensure
+      RailsUrlShortener.forward_query_params = false
+    end
   end
 end

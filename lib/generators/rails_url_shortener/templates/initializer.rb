@@ -14,3 +14,4 @@ RailsUrlShortener.minimum_key_length = 3                 # minimum permitted for
 RailsUrlShortener.save_bots_visits = false               # if save bots visits
 RailsUrlShortener.save_visits = true                     # if save visits
 RailsUrlShortener.disable_url_key_updates = false       # if true, prevents the key from being updated after creation
+RailsUrlShortener.forward_query_params = false           # if true, forwards query params from short URL to redirect destination

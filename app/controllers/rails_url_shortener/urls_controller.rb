@@ -10,7 +10,19 @@ module RailsUrlShortener
     def show
       # find, if you pass the request then this is saved
       url = Url.find_url_by_key(params[:key], request: request)
-      redirect_to url.url, status: :moved_permanently
+      destination = url.url
+
+      if RailsUrlShortener.forward_query_params
+        query = request.query_parameters.except(:key)
+        if query.any?
+          uri = URI.parse(destination)
+          existing = URI.decode_www_form(uri.query || '')
+          uri.query = URI.encode_www_form(existing + query.to_a)
+          destination = uri.to_s
+        end
+      end
+
+      redirect_to destination, status: :moved_permanently
     end
   end
 end

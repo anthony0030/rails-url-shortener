@@ -1,4 +1,10 @@
 
+# [0.6.12](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.11...rails_url_shortener/v0.6.12) (2026-04-21)
+
+### Features
+
+* Add `forward_query_params` configuration option to forward query parameters from the short URL request to the redirect destination
+
 # [0.6.11](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.10...rails_url_shortener/v0.6.11) (2026-04-21)
 
 ### Features
