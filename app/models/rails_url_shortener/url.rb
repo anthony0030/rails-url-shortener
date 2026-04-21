@@ -47,11 +47,7 @@ module RailsUrlShortener
     scope :owned,   -> { where.not(owner_id: nil, owner_type: nil) }
     scope :unowned, -> { where(owner_id: nil, owner_type: nil) }
 
-    scope :invalid_owner, -> {
-      where
-        .not(owner_id: nil).where(owner_type: nil)
-        .or(where(owner_id: nil).where.not(owner_type: nil))
-    }
+    scope :invalid_owner, -> { where.not(owner_id: nil).where(owner_type: nil).or(where(owner_id: nil).where.not(owner_type: nil)) }
 
     # combine all scopes for active URLs
     scope :active, -> { started.unexpired.unpaused }
