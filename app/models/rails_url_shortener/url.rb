@@ -63,6 +63,7 @@ module RailsUrlShortener
     after_initialize :set_attr
     # callbacks
     before_validation :generate_key
+    before_update :prevent_key_change, if: -> { RailsUrlShortener.disable_url_key_updates }
 
     ##
     # set default instance variables values
@@ -181,6 +182,13 @@ module RailsUrlShortener
         self.generating_retries += 1
         break unless self.class.exists?(key: key)
       end
+    end
+
+    def prevent_key_change
+      return unless key_changed?
+
+      errors.add(:key, 'cannot be changed after creation')
+      throw(:abort)
     end
   end
 end

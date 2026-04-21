@@ -260,5 +260,57 @@ module RailsUrlShortener
       )
       assert_equal :paused, url.status
     end
+
+    # disable_url_key_updates tests
+
+    test 'key can be updated when disable_url_key_updates is false' do
+      RailsUrlShortener.disable_url_key_updates = false
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener')
+      original_key = url.key
+      url.key = 'newkey1'
+      assert url.save
+      assert_equal 'newkey1', url.reload.key
+      assert_not_equal original_key, url.key
+    end
+
+    test 'key cannot be updated when disable_url_key_updates is true' do
+      RailsUrlShortener.disable_url_key_updates = true
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener')
+      original_key = url.key
+      url.key = 'newkey2'
+      assert_not url.save
+      assert_includes url.errors[:key], 'cannot be changed after creation'
+      assert_equal original_key, url.reload.key
+    ensure
+      RailsUrlShortener.disable_url_key_updates = false
+    end
+
+    test 'other attributes can be updated when disable_url_key_updates is true' do
+      RailsUrlShortener.disable_url_key_updates = true
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener')
+      url.url = 'https://example.com'
+      assert url.save
+      assert_equal 'https://example.com', url.reload.url
+    ensure
+      RailsUrlShortener.disable_url_key_updates = false
+    end
+
+    test 'new url can still be created when disable_url_key_updates is true' do
+      RailsUrlShortener.disable_url_key_updates = true
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener')
+      assert url.persisted?
+      assert url.key.present?
+    ensure
+      RailsUrlShortener.disable_url_key_updates = false
+    end
+
+    test 'custom key on create works when disable_url_key_updates is true' do
+      RailsUrlShortener.disable_url_key_updates = true
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener', key: 'custom1')
+      assert url.persisted?
+      assert_equal 'custom1', url.key
+    ensure
+      RailsUrlShortener.disable_url_key_updates = false
+    end
   end
 end

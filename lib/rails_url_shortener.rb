@@ -42,6 +42,10 @@ module RailsUrlShortener
   mattr_accessor :save_bots_visits, default: true
 
   mattr_accessor :save_visits, default: true
+
+  ##
+  # if true, the key column on Url cannot be updated after creation
+  mattr_accessor :disable_url_key_updates, default: false
 end
 
 ActiveSupport.on_load(:active_record) do

@@ -1,4 +1,10 @@
 
+# [0.6.11](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.10...rails_url_shortener/v0.6.11) (2026-04-21)
+
+### Features
+
+* Add `disable_url_key_updates` configuration option to prevent the `key` column from being updated after a URL is created
+
 # [0.6.10](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.9...rails_url_shortener/v0.6.10) (2026-04-21)
 
 ### Bug Fixes

@@ -13,3 +13,4 @@ RailsUrlShortener.key_length = 6                         # Key length for random
 RailsUrlShortener.minimum_key_length = 3                 # minimum permitted for a key
 RailsUrlShortener.save_bots_visits = false               # if save bots visits
 RailsUrlShortener.save_visits = true                     # if save visits
+RailsUrlShortener.disable_url_key_updates = false       # if true, prevents the key from being updated after creation
