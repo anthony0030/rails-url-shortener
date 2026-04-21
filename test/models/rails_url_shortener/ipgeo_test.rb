@@ -44,5 +44,13 @@ module RailsUrlShortener
         assert_equal 'Santiago', ipgeo.city
       end
     end
+
+    test 'update from remote does nothing on non-200 response' do
+      ipgeo = rails_url_shortener_ipgeos(:three)
+      original_city = ipgeo.city
+      stub_request(:get, /ip-api\.com/).to_return(status: 500, body: '')
+      ipgeo.update_from_remote
+      assert_equal original_city, ipgeo.reload.city
+    end
   end
 end

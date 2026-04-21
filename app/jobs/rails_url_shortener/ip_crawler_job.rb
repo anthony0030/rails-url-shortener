@@ -16,12 +16,12 @@ module RailsUrlShortener
         ipgeo = Ipgeo.find_by(ip: visit.ip)
         # update if older than three months
         ipgeo.update_from_remote if ipgeo.updated_at <= 3.months.ago
-      elsif !Ipgeo.exists?(ip: visit.ip)
+      else
         # Then create a new record
         ipgeo = Ipgeo.create(ip: visit.ip)
         ipgeo.update_from_remote
       end
-      visit.update(ipgeo: ipgeo) unless ipgeo.nil?
+      visit.update(ipgeo: ipgeo)
     end
   end
 end

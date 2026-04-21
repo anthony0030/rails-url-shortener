@@ -312,5 +312,50 @@ module RailsUrlShortener
     ensure
       RailsUrlShortener.disable_url_key_updates = false
     end
+
+    test 'generate_key increases key_length after 10 collisions' do
+      # Create a url that will collide
+      original_length = RailsUrlShortener.key_length
+
+      url = Url.new(url: 'https://example.com')
+      url.key_length = original_length
+
+      # Stub key_candidate to return colliding keys for first 10 attempts, then a unique one
+      call_count = 0
+      existing_keys = Url.pluck(:key)
+      collide_key = existing_keys.first
+
+      url.define_singleton_method(:key_candidate) do
+        call_count += 1
+        if call_count <= 10
+          collide_key
+        else
+          'unique_key'
+        end
+      end
+
+      url.send(:generate_key)
+      assert_equal original_length + 1, url.key_length
+      assert_equal 'unique_key', url.key
+    end
+
+    test 'prevent_key_change allows save when key is unchanged and feature enabled' do
+      RailsUrlShortener.disable_url_key_updates = true
+      url = Url.generate('https://github.com/a-chacon/rails_url_shortener')
+      url.url = 'https://example.com/updated'
+      assert url.save
+      assert_equal 'https://example.com/updated', url.reload.url
+    ensure
+      RailsUrlShortener.disable_url_key_updates = false
+    end
+
+    test 'find_url_by_key uses fallback slash when default_redirect is nil' do
+      original = RailsUrlShortener.default_redirect
+      RailsUrlShortener.default_redirect = nil
+      result = Url.find_url_by_key('nonexistent_key')
+      assert_equal '/', result.url
+    ensure
+      RailsUrlShortener.default_redirect = original
+    end
   end
 end
