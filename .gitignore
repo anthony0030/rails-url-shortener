@@ -8,5 +8,6 @@
 /test/dummy/db/*.sqlite3-*
 /test/dummy/log/*.log
 /test/dummy/tmp/
+/coverage/
 .archivador.fish
 .DS_Store

@@ -51,4 +51,4 @@ gem 'vcr'
 
 gem 'rubocop'
 
-gem 'minitest-cc'
+gem 'simplecov', require: false

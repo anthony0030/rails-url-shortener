@@ -21,6 +21,4 @@ gem 'vcr'
 
 gem 'rubocop', require: false
 
-gem 'minitest-cc'
-
-
+gem 'simplecov', require: false

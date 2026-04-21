@@ -95,6 +95,7 @@ GEM
       rexml
     crass (1.0.6)
     date (3.4.1)
+    docile (1.4.1)
     domain_name (0.6.20240107)
     drb (2.2.3)
     erb (5.1.1)
@@ -141,7 +142,6 @@ GEM
     marcel (1.1.0)
     mini_mime (1.1.5)
     minitest (5.26.0)
-    minitest-cc (1.0.0)
     net-imap (0.5.12)
       date
       net-protocol
@@ -230,6 +230,12 @@ GEM
       prism (~> 1.4)
     ruby-progressbar (1.13.0)
     securerandom (0.4.1)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.13.2)
+    simplecov_json_formatter (0.1.4)
     sprockets (4.2.2)
       concurrent-ruby (~> 1.0)
       logger
@@ -267,10 +273,10 @@ PLATFORMS
 DEPENDENCIES
   byebug
   faker
-  minitest-cc
   rails (~> 7.2)
   rails_url_shortener!
   rubocop
+  simplecov
   sprockets-rails
   sqlite3
   vcr

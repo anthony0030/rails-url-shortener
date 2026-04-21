@@ -1,5 +1,20 @@
-require 'minitest/cc'
-Minitest::Cc.start_coverage
+require 'simplecov'
+SimpleCov.start do
+  enable_coverage :branch
+  primary_coverage :branch
+
+  enable_coverage_for_eval
+
+  add_filter '/test/'
+  add_filter '/config/'
+  add_filter '/db/'
+
+  add_group 'Controllers', 'app/controllers'
+  add_group 'Helpers',     'app/helpers'
+  add_group 'Jobs',        'app/jobs'
+  add_group 'Models',      'app/models'
+  add_group 'Libraries',   'lib'
+end
 
 # Configure Rails Environment
 ENV['RAILS_ENV'] = 'test'
