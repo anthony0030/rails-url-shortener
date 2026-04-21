@@ -44,8 +44,21 @@ module RailsUrlShortener
     scope :paused,   -> { where(paused: true) }
     scope :unpaused, -> { where(paused: false) }
 
+    scope :owned,   -> { where.not(owner_id: nil, owner_type: nil) }
+    scope :unowned, -> { where(owner_id: nil, owner_type: nil) }
+
+    scope :invalid_owner, -> {
+      where
+        .not(owner_id: nil).where(owner_type: nil)
+        .or(where(owner_id: nil).where.not(owner_type: nil))
+    }
+
     # combine all scopes for active URLs
     scope :active, -> { started.unexpired.unpaused }
+
+    # combine active + owned
+    scope :active_owned, -> { active.owned }
+    scope :active_unowned, -> { active.unowned }
 
     after_initialize :set_attr
     # callbacks

@@ -1,4 +1,12 @@
 
+# [0.6.9](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.8...rails_url_shortener/v0.6.9) (2026-04-21)
+
+### Features
+
+* Add `owned` and `unowned` scopes to filter URLs by owner presence
+* Add `invalid_owner` scope to find URLs with inconsistent owner data
+* Add `active_owned` and `active_unowned` convenience scopes combining `active` with ownership filters
+
 # [0.6.8](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.7...rails_url_shortener/v0.6.8) (2026-04-16)
 
 ### Features

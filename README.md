@@ -24,6 +24,7 @@ Here are some of the things you can do with RailsUrlShortener:
 * Create scheduled links using the starts_at option
 * Create temporary short links using the expires_at option
 * Pause and unpause links on demand
+* Filter URLs by ownership with `owned`, `unowned`, and `active_owned` / `active_unowned` scopes
 * Get IP data from a third-party service
 
 ## Installation
@@ -110,6 +111,16 @@ You can check the current status of any URL:
 ```ruby
 url = RailsUrlShortener::Url.find_by(key: 'abc123')
 url.status # => :active, :paused, :upcoming, or :expired
+```
+
+You can filter URLs by ownership:
+
+```ruby
+RailsUrlShortener::Url.owned          # URLs with an owner
+RailsUrlShortener::Url.unowned        # URLs without an owner
+RailsUrlShortener::Url.active_owned   # Active URLs with an owner
+RailsUrlShortener::Url.active_unowned # Active URLs without an owner
+RailsUrlShortener::Url.invalid_owner  # URLs with inconsistent owner data
 ```
 
 You can append tracking parameters to short URLs:
