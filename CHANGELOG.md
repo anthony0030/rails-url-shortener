@@ -1,4 +1,10 @@
 
+# [0.6.10](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.9...rails_url_shortener/v0.6.10) (2026-04-21)
+
+### Bug Fixes
+
+* Use `key.present?` instead of `key.nil?` in `generate_key` so blank keys are regenerated
+
 # [0.6.9](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.8...rails_url_shortener/v0.6.9) (2026-04-21)
 
 ### Features

@@ -172,7 +172,7 @@ module RailsUrlShortener
     end
 
     def generate_key
-      return unless key.nil?
+      return if key.present?
 
       loop do
         # plus to the key length if after 10 attempts was not found a candidate
