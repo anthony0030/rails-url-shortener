@@ -1,7 +1,15 @@
 {
   "cSpell.words": [
     "alphanumcase",
-    "ipgeo"
+    "erubi",
+    "globalid",
+    "imap",
+    "ipgeo",
+    "llhttp",
+    "racc",
+    "referer",
+    "rubocop",
+    "tsort"
   ],
   "cSpell.enabledLanguageIds": [
     "COBOL",
