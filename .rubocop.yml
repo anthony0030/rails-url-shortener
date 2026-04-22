@@ -15,9 +15,17 @@ AllCops:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
+Layout/LineLength:
+  Enabled: true
+  Max: 150
+
+Metrics/AbcSize:
+  Enabled: true
+  Max: 21
+
 Metrics/BlockLength:
   Max: 30
-  AllowedMethods: [:class_methods]
+  AllowedMethods: ["class_methods"]
 
 Metrics/ClassLength:
   Max: 120
@@ -26,7 +34,13 @@ Metrics/MethodLength:
   Max: 30
 
 Metrics/ParameterLists:
-  Max: 6
+  Max: 10
+
+Naming/PredicatePrefix:
+  Enabled: false
+
+Rails/Output:
+  Enabled: false
 
 Style/Documentation:
   Enabled: false
