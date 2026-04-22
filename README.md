@@ -10,8 +10,6 @@ RailsUrlShortener is a small Rails engine that provides your app with short URL 
 
 Why give your data to a third-party app when you can manage it yourself?
 
-You can see a **demo project** of what you can do with this engine [HERE](https://paso.fly.dev/).
-
 ## Key Features
 
 Here are some of the things you can do with RailsUrlShortener:
