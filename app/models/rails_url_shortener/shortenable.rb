@@ -3,7 +3,6 @@ module RailsUrlShortener
     extend ActiveSupport::Concern
 
     class_methods do
-
       # =========================
       # ONE
       # =========================
@@ -13,7 +12,7 @@ module RailsUrlShortener
         has_one(
           name,
           -> { where(kind: kind_value) },
-          class_name: "RailsUrlShortener::Url",
+          class_name: 'RailsUrlShortener::Url',
           as: :owner,
           inverse_of: :owner,
           dependent: dependent
@@ -43,7 +42,7 @@ module RailsUrlShortener
         has_many(
           name,
           -> { where(kind: kind_value) },
-          class_name: "RailsUrlShortener::Url",
+          class_name: 'RailsUrlShortener::Url',
           as: :owner,
           inverse_of: :owner,
           dependent: dependent
