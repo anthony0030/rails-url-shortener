@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.9.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.8.0...rails_url_shortener/v0.9.0) (2026-04-22)
+
+### Features
+
+* Password-protect individual short URLs with HTTP Basic Auth ([#23](https://github.com/a-chacon/rails-url-shortener/issues/23))
+* Add `password` parameter to `Url.generate` and `short_url` helper
+* Add `password_protected?` and `authenticate` methods to `Url` model
+* Add `bcrypt` gem dependency for secure password hashing
+
+### Upgrade
+
+Run the following to install the new migration:
+
+```bash
+rails rails_url_shortener:install:migrations && rails db:migrate
+```
+
 ## [0.8.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.7.0...rails_url_shortener/v0.8.0) (2026-04-22)
 
 ### Features

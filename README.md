@@ -25,6 +25,7 @@ Here are some of the things you can do with RailsUrlShortener:
 * Filter URLs by ownership with `owned`, `unowned`, and `active_owned` / `active_unowned` scopes
 * Configurable IP geolocation backend with optional API key support
 * Extend gem models from your host app with generated extension concerns
+* Password-protect individual short URLs with HTTP Basic Auth
 
 ## Installation
 
@@ -86,7 +87,7 @@ RailsUrlShortener::Url.generate("https://www.github.com/a-chacon/rails-url-short
 Full params for the short_url helper:
 
 ```ruby
-short_url(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, url_options: {})
+short_url(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, url_options: {})
 ```
 
 Where:
@@ -99,12 +100,13 @@ Where:
 * **paused**: Boolean to pause the URL (overrides starts_at/expires_at, default: false)
 * **category**: A tag for categorizing the link
 * **forward_query_params**: Override the global `forward_query_params` setting for this URL (`nil` = use global, `true` = always forward, `false` = never forward)
+* **password**: A plaintext password to protect the URL with HTTP Basic Auth (stored as a bcrypt digest)
 * **url_options**: Options for the URL generator (e.g., subdomain or protocol)
 
 The `generate` model method accepts the same parameters except for `url_options`:
 
 ```ruby
-RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil)
+RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil)
 ```
 
 ### Data Collection
@@ -297,6 +299,31 @@ end
 ```
 
 No initializer or manual `include` call is needed — the extension is picked up automatically on boot.
+
+### Password Protection
+
+You can password-protect individual short URLs. When a visitor opens a protected link, the browser prompts for a password via HTTP Basic Auth. The username field is ignored — only the password matters.
+
+Create a password-protected short URL:
+
+```ruby
+# Via the helper
+short_url("https://example.com/secret-doc", password: "s3cret")
+
+# Via the model
+RailsUrlShortener::Url.generate("https://example.com/secret-doc", password: "s3cret")
+```
+
+The password is stored as a bcrypt digest in the `password_digest` column. You can check whether a URL is protected and verify passwords programmatically:
+
+```ruby
+url = RailsUrlShortener::Url.find_by(key: "abc123")
+url.password_protected? # => true
+url.authenticate("s3cret") # => <Url> (truthy)
+url.authenticate("wrong")  # => false
+```
+
+When a visitor opens the short link, the browser displays a standard username/password dialog. They can enter anything (or nothing) for the username — only the password is checked. On success, the visitor is redirected as usual. On failure, a 401 Unauthorized response is returned.
 
 ### Madmin Integration
 

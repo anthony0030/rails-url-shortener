@@ -354,5 +354,39 @@ module RailsUrlShortener
     ensure
       RailsUrlShortener.default_redirect = original
     end
+
+    # password protection tests
+
+    test 'generate with password sets password_digest' do
+      url = Url.generate('https://example.com', password: 'secret123')
+      assert url.persisted?
+      assert url.password_digest.present?
+    end
+
+    test 'generate without password leaves password_digest nil' do
+      url = Url.generate('https://example.com')
+      assert url.persisted?
+      assert_nil url.password_digest
+    end
+
+    test 'password_protected? returns true when password is set' do
+      url = Url.generate('https://example.com', password: 'secret123')
+      assert url.password_protected?
+    end
+
+    test 'password_protected? returns false when no password' do
+      url = Url.generate('https://example.com')
+      assert_not url.password_protected?
+    end
+
+    test 'authenticate returns url with correct password' do
+      url = Url.generate('https://example.com', password: 'secret123')
+      assert url.authenticate('secret123')
+    end
+
+    test 'authenticate returns false with wrong password' do
+      url = Url.generate('https://example.com', password: 'secret123')
+      assert_not url.authenticate('wrong')
+    end
   end
 end

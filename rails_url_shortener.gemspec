@@ -33,6 +33,7 @@ Gem::Specification.new do |spec|
     Dir['{app,config,db,lib}/**/*', 'LICENSE', 'Rakefile', 'README.md']
   end
 
+  spec.add_dependency 'bcrypt', '>= 3.1.7'
   spec.add_dependency 'browser', '>= 5.3.0'
   spec.add_dependency 'http', '>= 5.1.0'
 

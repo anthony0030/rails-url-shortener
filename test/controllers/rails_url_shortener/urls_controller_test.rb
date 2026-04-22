@@ -134,5 +134,62 @@ module RailsUrlShortener
     ensure
       RailsUrlShortener.forward_query_params = false
     end
+
+    # password protection tests
+
+    test 'show returns 401 for password-protected URL without credentials' do
+      url = Url.generate('https://example.com', password: 'secret123')
+      get "/shortener/#{url.key}", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+      }
+      assert_response :unauthorized
+      assert_equal 'Basic realm="Password Required"', response.headers['WWW-Authenticate']
+    end
+
+    test 'show returns 401 for password-protected URL with wrong password' do
+      url = Url.generate('https://example.com', password: 'secret123')
+      credentials = ActionController::HttpAuthentication::Basic.encode_credentials('', 'wrongpass')
+      get "/shortener/#{url.key}", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0',
+        'Authorization': credentials
+      }
+      assert_response :unauthorized
+    end
+
+    test 'show redirects for password-protected URL with correct password' do
+      url = Url.generate('https://example.com', password: 'secret123')
+      credentials = ActionController::HttpAuthentication::Basic.encode_credentials('', 'secret123')
+      get "/shortener/#{url.key}", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0',
+        'Authorization': credentials
+      }
+      assert_response :moved_permanently
+      assert_redirected_to 'https://example.com'
+    end
+
+    test 'show redirects for password-protected URL with any username and correct password' do
+      url = Url.generate('https://example.com', password: 'secret123')
+      credentials = ActionController::HttpAuthentication::Basic.encode_credentials('anyuser', 'secret123')
+      get "/shortener/#{url.key}", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0',
+        'Authorization': credentials
+      }
+      assert_response :moved_permanently
+      assert_redirected_to 'https://example.com'
+    end
+
+    test 'show with password-protected URL and forward_query_params works after auth' do
+      url = Url.generate('https://example.com/page', password: 'secret123', forward_query_params: true)
+      credentials = ActionController::HttpAuthentication::Basic.encode_credentials('', 'secret123')
+      get "/shortener/#{url.key}?source=email", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0',
+        'Authorization': credentials
+      }
+      assert_response :moved_permanently
+      location = response.headers['Location']
+      uri = URI.parse(location)
+      query = Rack::Utils.parse_query(uri.query)
+      assert_equal 'email', query['source']
+    end
   end
 end

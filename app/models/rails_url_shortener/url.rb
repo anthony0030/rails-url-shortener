@@ -20,6 +20,8 @@
 #
 module RailsUrlShortener
   class Url < ApplicationRecord
+    has_secure_password validations: false
+
     # variables
     attr_accessor :generating_retries, :key_length
 
@@ -70,7 +72,7 @@ module RailsUrlShortener
     #
     # if something is wrong return the object with errors
 
-    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil)
+    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil)
       create(
         url: url,
         owner: owner,
@@ -80,7 +82,8 @@ module RailsUrlShortener
         expires_at: expires_at,
         paused: paused,
         category: category,
-        forward_query_params: forward_query_params
+        forward_query_params: forward_query_params,
+        password: password
       )
     end
 
@@ -141,6 +144,13 @@ module RailsUrlShortener
     #
     def unpause!
       update!(paused: false)
+    end
+
+    ##
+    # Returns true if this URL requires a password to access
+    #
+    def password_protected?
+      password_digest.present?
     end
 
     ##
