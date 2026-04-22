@@ -1,10 +1,8 @@
+# RailsUrlShortener
 
 [![Ruby on Rails CI](https://github.com/a-chacon/rails-url-shortener/actions/workflows/rubyonrails.yml/badge.svg)](https://github.com/a-chacon/rails-url-shortener/actions/workflows/rubyonrails.yml)
 ![Gem Version](https://img.shields.io/gem/v/rails_url_shortener)
-
 ![GitHub License](https://img.shields.io/github/license/a-chacon/rails_url_shortener)
-
-# RailsUrlShortener
 
 RailsUrlShortener is a small Rails engine that provides your app with short URL functionality and IP logging capabilities - like having your own Bitly service. By default, RailsUrlShortener saves all visits to your links for future analysis or other interesting uses.
 
@@ -128,7 +126,7 @@ You can append tracking parameters to short URLs:
 
 ```ruby
 url = RailsUrlShortener::Url.find_by(key: 'abc123')
-url.to_short_url(params: { source: 'qr' })       # => "https://host/shortener/abc123?source=qr"
+url.to_short_url(params: { source: 'qr' })        # => "https://host/shortener/abc123?source=qr"
 url.to_short_url(params: { source: 'nfc' })       # => "https://host/shortener/abc123?source=nfc"
 ```
 
@@ -215,9 +213,9 @@ end
 ```ruby
 campaign = Campaign.first
 
-campaign.promo_links # => [<RailsUrlShortener::Url>, ...]
+campaign.promo_links            # => [<RailsUrlShortener::Url>, ...]
 campaign.promo_links_short_urls # => ["https://...", "https://..."]
-campaign.has_promo_links? # => true / false
+campaign.has_promo_links?       # => true / false
 ```
 
 ## Contributing
@@ -232,7 +230,6 @@ Don't forget to give the project a star! Thanks again!
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
 
 ## Linting
 
@@ -273,7 +270,6 @@ rake test
 ```
 
 After running tests, you can view the coverage report by opening `coverage/index.html` in your browser of choice.
-
 
 ## License
 
