@@ -3,21 +3,17 @@
 # Table name: rails_url_shortener_urls
 #
 #  id         :integer          not null, primary key
+#  owner_type :string
+#  owner_id   :integer
+#  url        :text             not null
+#  key        :string(10)       not null
 #  category   :string
 #  expires_at :datetime
-#  key        :string(10)       not null
-#  kind       :string
-#  owner_type :string
-#  paused     :boolean          default(FALSE), not null
-#  starts_at  :datetime
-#  url        :text             not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#  owner_id   :integer
-#
-# Indexes
-#
-#  index_rails_url_shortener_urls_on_owner  (owner_type,owner_id)
+#  kind       :string
+#  starts_at  :datetime
+#  paused     :boolean          default(FALSE), not null
 #
 require 'test_helper'
 

@@ -3,25 +3,20 @@
 # Table name: rails_url_shortener_visits
 #
 #  id               :integer          not null, primary key
-#  bot              :boolean
+#  url_id           :integer
+#  ip               :string
 #  browser          :string
 #  browser_version  :string
-#  ip               :string
-#  meta             :text
-#  params           :text
 #  platform         :string
 #  platform_version :string
-#  referer          :string           default("")
+#  bot              :boolean
 #  user_agent       :string
+#  meta             :text
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  ipgeo_id         :integer
-#  url_id           :integer
-#
-# Indexes
-#
-#  index_rails_url_shortener_visits_on_ipgeo_id  (ipgeo_id)
-#  index_rails_url_shortener_visits_on_url_id    (url_id)
+#  referer          :string           default("")
+#  params           :text
 #
 require 'test_helper'
 require 'json'
