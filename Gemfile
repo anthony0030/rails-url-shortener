@@ -23,6 +23,8 @@ group :test do
 end
 
 group :development, :test do
+  gem 'annotate'
+
   gem 'rubocop'
 
   gem 'rubocop-rails', require: false

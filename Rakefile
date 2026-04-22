@@ -30,6 +30,11 @@ end
 desc 'Run all linters'
 task lint: %w[lint:ruby lint:spelling lint:markdown]
 
+desc 'Update schema annotations in models, tests, and fixtures'
+task annotate: :environment do
+  sh 'bundle exec annotate --models'
+end
+
 Rake::TestTask.new(:test) do |t|
   t.warning = false
   t.libs << 'test'
