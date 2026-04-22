@@ -1,4 +1,6 @@
-# RailsUrlShortener
+<!-- # RailsUrlShortener -->
+
+![RailsUrlShortener Banner](banner.png)
 
 [![Ruby on Rails CI](https://github.com/a-chacon/rails-url-shortener/actions/workflows/rubyonrails.yml/badge.svg)](https://github.com/a-chacon/rails-url-shortener/actions/workflows/rubyonrails.yml)
 ![Gem Version](https://img.shields.io/gem/v/rails_url_shortener)
