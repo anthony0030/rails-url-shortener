@@ -1,20 +1,4 @@
 {
-  "cSpell.words": [
-    "alphanumcase",
-    "erubi",
-    "globalid",
-    "imap",
-    "ipgeo",
-    "llhttp",
-    "racc",
-    "referer",
-    "rubocop",
-    "tsort"
-  ],
-  "cSpell.enabledLanguageIds": [
-    "COBOL",
-    "ACUCOBOL"
-  ],
   "files.associations": {
     "LICENSE": "txt"
   },
