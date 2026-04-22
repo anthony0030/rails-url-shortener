@@ -1,23 +1,24 @@
+# Changelog
 
-# [0.6.12](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.11...rails_url_shortener/v0.6.12) (2026-04-21)
+## [0.6.12](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.11...rails_url_shortener/v0.6.12) (2026-04-21)
 
 ### Features
 
 * Add `forward_query_params` configuration option to forward query parameters from the short URL request to the redirect destination
 
-# [0.6.11](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.10...rails_url_shortener/v0.6.11) (2026-04-21)
+## [0.6.11](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.10...rails_url_shortener/v0.6.11) (2026-04-21)
 
 ### Features
 
 * Add `disable_url_key_updates` configuration option to prevent the `key` column from being updated after a URL is created
 
-# [0.6.10](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.9...rails_url_shortener/v0.6.10) (2026-04-21)
+## [0.6.10](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.9...rails_url_shortener/v0.6.10) (2026-04-21)
 
 ### Bug Fixes
 
 * Use `key.present?` instead of `key.nil?` in `generate_key` so blank keys are regenerated
 
-# [0.6.9](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.8...rails_url_shortener/v0.6.9) (2026-04-21)
+## [0.6.9](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.8...rails_url_shortener/v0.6.9) (2026-04-21)
 
 ### Features
 
@@ -25,7 +26,7 @@
 * Add `invalid_owner` scope to find URLs with inconsistent owner data
 * Add `active_owned` and `active_unowned` convenience scopes combining `active` with ownership filters
 
-# [0.6.8](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.7...rails_url_shortener/v0.6.8) (2026-04-16)
+## [0.6.8](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.7...rails_url_shortener/v0.6.8) (2026-04-16)
 
 ### Features
 
@@ -33,13 +34,13 @@
 * Log query parameters from short URL visits in the `params` column on `Visit`
 * Add migration for `params` text column on `rails_url_shortener_visits`
 
-# [0.6.7](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.6...rails_url_shortener/v0.6.7) (2026-04-16)
+## [0.6.7](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.6...rails_url_shortener/v0.6.7) (2026-04-16)
 
 ### Features
 
 * Add `status` method on `Url` returning `:paused`, `:expired`, `:upcoming`, or `:active`
 
-# [0.6.6](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.5...rails_url_shortener/v0.6.6) (2026-04-16)
+## [0.6.6](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.5...rails_url_shortener/v0.6.6) (2026-04-16)
 
 ### Features
 
@@ -49,7 +50,7 @@
 * Include `unpaused` in the `active` scope
 * Add `paused` parameter to `Url.generate` and `short_url` helper
 
-# [0.6.5](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.4...rails_url_shortener/v0.6.5) (2026-04-16)
+## [0.6.5](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.4...rails_url_shortener/v0.6.5) (2026-04-16)
 
 ### Features
 
@@ -58,7 +59,7 @@
 * Add `active` scope combining `started` and `unexpired` for convenience
 * Add `kind` parameter to `Url.generate` and `short_url` helper
 
-# [0.6.4](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.3...rails_url_shortener/v0.6.4) (2026-04-16)
+## [0.6.4](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.3...rails_url_shortener/v0.6.4) (2026-04-16)
 
 ### Features
 
@@ -69,21 +70,18 @@
 
 * Update README with examples for customizing association names and dependent option
 
-# Changelog
-
-# [0.6.3](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.1...rails_url_shortener/v0.6.3) (2026-04-07)
+## [0.6.3](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.1...rails_url_shortener/v0.6.3) (2026-04-07)
 
 ### Features
 
-* Adds protocal output to to_short_url
+* Adds protocol output to to_short_url
 * Adds secure option to to_short_url
 
 ### Maintenance
 
 * Fix typos and alignments
 
-
-# [0.6.2](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.1...rails_url_shortener/v0.6.2) (2026-04-02)
+## [0.6.2](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.1...rails_url_shortener/v0.6.2) (2026-04-02)
 
 ### Features
 
@@ -93,7 +91,7 @@
 
 * Ignore built gem files (*.gem) in .gitignore.
 
-# [0.6.1](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.0...rails_url_shortener/v0.6.1) (2026-04-01)
+## [0.6.1](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.0...rails_url_shortener/v0.6.1) (2026-04-01)
 
 ### Breaking Change
 
@@ -104,9 +102,7 @@
 * Ignore .DS_Store system files
 * Add VS Code config file
 
-
 ## [0.6.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.5.0...rails_url_shortener/v0.6.0) (2025-10-20)
-
 
 ### Features
 
@@ -114,11 +110,9 @@
 
 ## [0.5.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.4.0...rails_url_shortener/v0.5.0) (2025-07-20)
 
-
 ### Features
 
 * let the initializer choose whether save or not visits. ([#20](https://github.com/a-chacon/rails-url-shortener/issues/20)) ([2f30898](https://github.com/a-chacon/rails-url-shortener/commit/2f3089886c6e6a7e2d26d80fb1596e1f7b327abc))
-
 
 ### Bug Fixes
 
@@ -126,19 +120,16 @@
 
 ## [0.4.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.3.0...rails_url_shortener/v0.4.0) (2025-05-08)
 
-
 ### Features
 
 * add referer to visits model ([84782f9](https://github.com/a-chacon/rails-url-shortener/commit/84782f9a6586350620db3357f746fbda48a1343f))
 * add referer to visits model ([a2759c4](https://github.com/a-chacon/rails-url-shortener/commit/a2759c4b2437d653db6f156a356e1a6f2cc28468))
-
 
 ### Documentation
 
 * **readme:** add badges ([0c27b50](https://github.com/a-chacon/rails-url-shortener/commit/0c27b50f22c7079b80b70600b3126fcb67ec9474))
 
 ## [0.3.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener-v0.2.10...rails_url_shortener/v0.3.0) (2025-03-16)
-
 
 ### Features
 
@@ -175,7 +166,6 @@
 * version in Gemfile.lock ([c30bb28](https://github.com/a-chacon/rails-url-shortener/commit/c30bb28644c66aa19a8d10efd50a7f3b613f1ab8))
 * version to 0.2.6 ([038a17a](https://github.com/a-chacon/rails-url-shortener/commit/038a17ad51e4befe82e6205f95588475e2c04b21))
 
-
 ### Bug Fixes
 
 * add comments to initializer template ([fa8a97d](https://github.com/a-chacon/rails-url-shortener/commit/fa8a97dbbcdc655820cb9e75246ce2a682395902))
@@ -198,7 +188,6 @@
 * take the host from the configuration of the engine ([1938b7c](https://github.com/a-chacon/rails-url-shortener/commit/1938b7cc68992c01c512fa5b3dbb41443fcadef0))
 * update versions on lock ([a23d484](https://github.com/a-chacon/rails-url-shortener/commit/a23d484c2845e09796074b3782a3ef18db8ddfed))
 * version gem in the gemfile ([27c542b](https://github.com/a-chacon/rails-url-shortener/commit/27c542b9e1ba06df405ba942bfc5b63527ab25f9))
-
 
 ### Documentation
 

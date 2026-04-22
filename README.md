@@ -37,17 +37,21 @@ Add the following line to your application's Gemfile:
 ```ruby
 gem "rails_url_shortener"
 ```
+
 2. Install the Gem
 Run the following command to install the gem:
 
 ```bash
 bundle install
 ```
+
 3. Run the Generator
 Run the generator to set up the necessary files:
+
 ```bash
 rails generate rails_url_shortener
 ```
+
 This will:
 ✅ Install and run the required migrations
 
@@ -55,7 +59,6 @@ This will:
 An entry will be added to the bottom of your config/routes.rb file, mounting the engine at the root of your application.
 
 ✅ Generate an initializer for further configuration`
-
 
 ## Usage
 
