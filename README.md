@@ -298,6 +298,77 @@ end
 
 No initializer or manual `include` call is needed — the extension is picked up automatically on boot.
 
+### Madmin Integration
+
+If you use [Madmin](https://github.com/excid3/madmin) as your admin panel, you can generate resources for the engine's models to manage them from the admin interface.
+
+Generate resources for each model:
+
+```bash
+rails g madmin:resource RailsUrlShortener::Url
+rails g madmin:resource RailsUrlShortener::Visit
+rails g madmin:resource RailsUrlShortener::Ipgeo
+```
+
+This creates resource files in `app/madmin/resources/` and registers the routes automatically. You can then customize the generated resource files to control which attributes appear in the index, show, and form views.
+
+### Pundit Integration
+
+If you use [Pundit](https://github.com/varvet/pundit) for authorization, you can generate policy classes for the engine's models:
+
+```bash
+rails g pundit:policy rails_url_shortener/url
+rails g pundit:policy rails_url_shortener/visit
+rails g pundit:policy rails_url_shortener/ipgeo
+```
+
+This creates policy files in `app/policies/rails_url_shortener/`:
+
+* `url_policy.rb`
+* `visit_policy.rb`
+* `ipgeo_policy.rb`
+
+Each policy inherits from `ApplicationPolicy`. Customize the generated policies to match your authorization rules:
+
+```ruby
+# app/policies/rails_url_shortener/url_policy.rb
+
+class RailsUrlShortener::UrlPolicy < ApplicationPolicy
+  def index?
+    user.admin?
+  end
+
+  def show?
+    true
+  end
+
+  def create?
+    user.admin?
+  end
+
+  def destroy?
+    user.admin?
+  end
+
+  class Scope < ApplicationPolicy::Scope
+    def resolve
+      if user.admin?
+        scope.all
+      else
+        scope.where(owner: user)
+      end
+    end
+  end
+end
+```
+
+Then use Pundit as usual in your controllers:
+
+```ruby
+@urls = policy_scope(RailsUrlShortener::Url)
+authorize @url
+```
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
