@@ -235,6 +235,48 @@ Don't forget to give the project a star! Thanks again!
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+
+## Linting
+
+Run all linters:
+
+```bash
+rake lint
+```
+
+### Ruby
+
+```bash
+rake lint:ruby
+```
+
+### Spelling
+
+```bash
+rake lint:spelling
+```
+
+This runs [cspell](https://cspell.org/) via npx. You'll need Node.js installed.
+
+### Markdown
+
+```bash
+rake lint:markdown
+```
+
+This runs [markdownlint](https://github.com/DavidAnson/markdownlint) via npx. You'll need Node.js installed.
+
+## Testing
+
+Run the test suite with:
+
+```bash
+rake test
+```
+
+After running tests, you can view the coverage report by opening `coverage/index.html` in your browser of choice.
+
+
 ## License
 
 The gem is available as open source under the terms of the [GPL-3.0 License](https://www.github.com/a-chacon/rails-url-shortener/blob/main/LICENSE).

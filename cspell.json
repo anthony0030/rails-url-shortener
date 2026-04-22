@@ -59,6 +59,7 @@
   "flagWords": [],
   //* words - list of words to be always considered correct
   "words": [
+    ".markdownlintrc",
     "alphanumcase",
     "Borquez",
     "erubi",
