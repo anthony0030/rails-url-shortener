@@ -6,28 +6,20 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 # Specify your gem's dependencies in rails_url_shortener.gemspec.
 gemspec
 
-gem 'rails', '~> 7.2'
+gem 'rails', '~> 8.1.0'
 
 gem 'sqlite3'
 
 gem 'sprockets-rails'
 
-group :test do
-  gem 'byebug'
-
-  gem 'faker'
-
-  gem 'webmock'
-
-  gem 'vcr'
-end
-
 group :development, :test do
-  gem 'annotate'
-
+  gem 'byebug'
+  gem 'db-annotate'
+  gem 'faker'
+  gem 'minitest'
   gem 'rubocop'
-
   gem 'rubocop-rails', require: false
-
   gem 'simplecov', require: false
+  gem 'vcr'
+  gem 'webmock'
 end

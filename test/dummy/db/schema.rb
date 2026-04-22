@@ -10,65 +10,65 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_16_182139) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_16_182139) do
   create_table "rails_url_shortener_ipgeos", force: :cascade do |t|
-    t.string "ip"
+    t.string "as"
+    t.string "city"
     t.string "country"
     t.string "country_code"
-    t.string "region"
-    t.string "region_name"
-    t.string "city"
+    t.datetime "created_at", null: false
+    t.boolean "hosting"
+    t.string "ip"
+    t.string "isp"
     t.string "lat"
     t.string "lon"
-    t.string "timezone"
-    t.string "isp"
-    t.string "org"
-    t.string "as"
     t.boolean "mobile"
+    t.string "org"
     t.boolean "proxy"
-    t.boolean "hosting"
-    t.datetime "created_at", null: false
+    t.string "region"
+    t.string "region_name"
+    t.string "timezone"
     t.datetime "updated_at", null: false
   end
 
   create_table "rails_url_shortener_urls", force: :cascade do |t|
-    t.string "owner_type"
-    t.integer "owner_id"
-    t.text "url", null: false
-    t.string "key", limit: 10, null: false
     t.string "category"
-    t.datetime "expires_at"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "expires_at"
+    t.string "key", limit: 10, null: false
     t.string "kind"
-    t.datetime "starts_at"
+    t.integer "owner_id"
+    t.string "owner_type"
     t.boolean "paused", default: false, null: false
+    t.datetime "starts_at"
+    t.datetime "updated_at", null: false
+    t.text "url", null: false
     t.index ["owner_type", "owner_id", "kind"], name: "index_urls_on_owner_and_kind"
   end
 
   create_table "rails_url_shortener_visits", force: :cascade do |t|
-    t.integer "url_id"
-    t.string "ip"
+    t.boolean "bot"
     t.string "browser"
     t.string "browser_version"
+    t.datetime "created_at", null: false
+    t.string "ip"
+    t.integer "ipgeo_id"
+    t.text "meta"
+    t.text "params"
     t.string "platform"
     t.string "platform_version"
-    t.boolean "bot"
-    t.string "user_agent"
-    t.text "meta"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "ipgeo_id"
     t.string "referer", default: ""
-    t.text "params"
+    t.datetime "updated_at", null: false
+    t.integer "url_id"
+    t.string "user_agent"
     t.index ["ipgeo_id"], name: "index_rails_url_shortener_visits_on_ipgeo_id"
     t.index ["url_id"], name: "index_rails_url_shortener_visits_on_url_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "name"
-    t.string "email"
     t.datetime "created_at", null: false
+    t.string "email"
+    t.string "name"
     t.datetime "updated_at", null: false
   end
 end
