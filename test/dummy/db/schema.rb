@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_16_182139) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_22_100000) do
   create_table "rails_url_shortener_ipgeos", force: :cascade do |t|
     t.string "as"
     t.string "city"
@@ -35,6 +35,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_182139) do
     t.string "category"
     t.datetime "created_at", null: false
     t.datetime "expires_at"
+    t.boolean "forward_query_params"
     t.string "key", limit: 10, null: false
     t.string "kind"
     t.integer "owner_id"

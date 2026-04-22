@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.13](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.12...rails_url_shortener/v0.6.13) (2026-04-22)
+
+### Features
+
+* Make `forward_query_params` configurable per URL, with `nil` falling back to the global setting, `true` forcing forwarding on, and `false` forcing it off
+
 ## [0.6.12](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.11...rails_url_shortener/v0.6.12) (2026-04-21)
 
 ### Features

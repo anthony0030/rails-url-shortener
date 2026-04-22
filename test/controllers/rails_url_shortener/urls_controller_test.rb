@@ -95,5 +95,44 @@ module RailsUrlShortener
     ensure
       RailsUrlShortener.forward_query_params = false
     end
+
+    test 'per-URL forward_query_params true overrides global false' do
+      url = Url.generate('https://example.com/page', forward_query_params: true)
+      get "/shortener/#{url.key}?source=email", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+      }
+      assert_response :moved_permanently
+      location = response.headers['Location']
+      uri = URI.parse(location)
+      query = Rack::Utils.parse_query(uri.query)
+      assert_equal 'email', query['source']
+    end
+
+    test 'per-URL forward_query_params false overrides global true' do
+      RailsUrlShortener.forward_query_params = true
+      url = Url.generate('https://example.com/page', forward_query_params: false)
+      get "/shortener/#{url.key}?source=email", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+      }
+      assert_response :moved_permanently
+      assert_redirected_to 'https://example.com/page'
+    ensure
+      RailsUrlShortener.forward_query_params = false
+    end
+
+    test 'per-URL forward_query_params nil falls back to global setting' do
+      RailsUrlShortener.forward_query_params = true
+      url = Url.generate('https://example.com/page', forward_query_params: nil)
+      get "/shortener/#{url.key}?source=email", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+      }
+      assert_response :moved_permanently
+      location = response.headers['Location']
+      uri = URI.parse(location)
+      query = Rack::Utils.parse_query(uri.query)
+      assert_equal 'email', query['source']
+    ensure
+      RailsUrlShortener.forward_query_params = false
+    end
   end
 end

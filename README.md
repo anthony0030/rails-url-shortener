@@ -85,7 +85,7 @@ RailsUrlShortener::Url.generate("https://www.github.com/a-chacon/rails-url-short
 Full params for the short_url helper:
 
 ```ruby
-short_url(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, url_options: {})
+short_url(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, url_options: {})
 ```
 
 Where:
@@ -97,12 +97,13 @@ Where:
 * **expires_at**: Expiration datetime (after which the redirect won't work)
 * **paused**: Boolean to pause the URL (overrides starts_at/expires_at, default: false)
 * **category**: A tag for categorizing the link
+* **forward_query_params**: Override the global `forward_query_params` setting for this URL (`nil` = use global, `true` = always forward, `false` = never forward)
 * **url_options**: Options for the URL generator (e.g., subdomain or protocol)
 
 The `generate` model method accepts the same parameters except for `url_options`:
 
 ```ruby
-RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil)
+RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil)
 ```
 
 ### Data Collection

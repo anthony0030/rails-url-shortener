@@ -69,7 +69,7 @@ module RailsUrlShortener
     #
     # if something is wrong return the object with errors
 
-    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, paused: false, category: nil)
+    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil)
       create(
         url: url,
         owner: owner,
@@ -78,7 +78,8 @@ module RailsUrlShortener
         starts_at: starts_at,
         expires_at: expires_at,
         paused: paused,
-        category: category
+        category: category,
+        forward_query_params: forward_query_params
       )
     end
 
