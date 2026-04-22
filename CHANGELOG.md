@@ -175,7 +175,7 @@
 * fix details after merge and update version of dependencies ([1d02bdc](https://github.com/a-chacon/rails-url-shortener/commit/1d02bdc0f562517e85435edab335636cb32933c3))
 * ip crawler job complexity ([c671f7f](https://github.com/a-chacon/rails-url-shortener/commit/c671f7f8a92ffe1ddddf56679d81ea6963b13fb4))
 * ip crawler job complexity ([eeebbbd](https://github.com/a-chacon/rails-url-shortener/commit/eeebbbd1ed3774e4d51029eb35cd9406d4191f5b))
-* licence on gemspec ([3cf052f](https://github.com/a-chacon/rails-url-shortener/commit/3cf052f1d2cb7b69ce3058eb43cf90d142891cc2))
+* license on gemspec ([3cf052f](https://github.com/a-chacon/rails-url-shortener/commit/3cf052f1d2cb7b69ce3058eb43cf90d142891cc2))
 * load the helper in the host app controllers and views ([d32ff70](https://github.com/a-chacon/rails-url-shortener/commit/d32ff70792dffce434371515aaf76be524ad482d))
 * load the helper in the host app controllers and views ([05de8d8](https://github.com/a-chacon/rails-url-shortener/commit/05de8d8e9b3ff2fa6a47e68aeee60332d34809e9))
 * names and saved data after test on real app ([7e36de1](https://github.com/a-chacon/rails-url-shortener/commit/7e36de18ca48194b3f2a25d78ce5ba07e58e8ed7))

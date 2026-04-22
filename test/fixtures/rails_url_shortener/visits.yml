@@ -23,7 +23,7 @@
 #  index_rails_url_shortener_visits_on_ipgeo_id  (ipgeo_id)
 #  index_rails_url_shortener_visits_on_url_id    (url_id)
 #
-# Dont repeat yourself
+# Don't repeat yourself
 # This data is generate with erb
 <%
   numbers = ["one", "two", "three", "four", "five"]

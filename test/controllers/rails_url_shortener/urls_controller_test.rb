@@ -17,7 +17,7 @@ module RailsUrlShortener
       end
     end
 
-    test 'show whith a not existing key' do
+    test 'show with a not existing key' do
       assert_no_difference 'Visit.count', 1 do
         assert_no_enqueued_jobs do
           get '/shortener/noexist', headers: {
