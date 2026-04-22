@@ -35,4 +35,13 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'browser', '>= 5.3.0'
   spec.add_dependency 'http', '>= 5.1.0'
+
+  spec.post_install_message = <<~MSG
+    rails_url_shortener has been installed/updated!
+
+    Run the generator to install new migrations and update your configuration:
+
+      bin/rails generate rails_url_shortener
+
+  MSG
 end

@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.6.14](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.13...rails_url_shortener/v0.6.14) (2026-04-22)
+
+### Improvements
+
+* Add post-install message reminding users to install new migrations after upgrading
+
 ## [0.6.13](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.12...rails_url_shortener/v0.6.13) (2026-04-22)
 
 ### Features
