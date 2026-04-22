@@ -1,22 +1,22 @@
-//* cSpell Settings
+// cSpell Settings
 {
-  //* Version of the setting file.  Always 0.2
+  // Version of the setting file.  Always 0.2
   "version": "0.2",
-  //* allowCompoundWords - defaults to false; set to true to allow compound words by default.
+  // allowCompoundWords - defaults to false; set to true to allow compound words by default.
   "allowCompoundWords": true,
-  //* maxNumberOfProblems - defaults to 100 per file.
+  // maxNumberOfProblems - defaults to 100 per file.
   "maxNumberOfProblems": 1000,
-  //* checkLimit - The limit in K-Characters to be checked in a file. default is 500
-  // "checkLimit": 5000, //! Setting that is in the vscode extension not in the cli
-  //* diagnosticLevel - Issues found by the spell checker are marked with a Diagnostic Severity Level.
-  //* This affects the color of the squiggle.
-  // "diagnosticLevel": "Warning", //! Setting that is in the vscode extension not in the cli
-  //* language - current active spelling language
+  // checkLimit - The limit in K-Characters to be checked in a file. default is 500
+  // "checkLimit": 5000, // Setting that is in the vscode extension not in the cli
+  // diagnosticLevel - Issues found by the spell checker are marked with a Diagnostic Severity Level.
+  // This affects the color of the squiggle.
+  // "diagnosticLevel": "Warning", // Setting that is in the vscode extension not in the cli
+  // language - current active spelling language
   "language": "en_US",
   "useGitignore": true,
-  //* minWordLength - defaults to 4 - the minimum length of a word before it is checked.
+  // minWordLength - defaults to 4 - the minimum length of a word before it is checked.
   "minWordLength": 4,
-  //* dictionaries - list of the names of the dictionaries to use.
+  // dictionaries - list of the names of the dictionaries to use.
   "dictionaries": [
     "bash",
     "companies",
@@ -40,24 +40,24 @@
     "typescript",
     "web-services"
   ],
-  //* dictionaryDefinitions - this list defines any custom dictionaries to use.
-  //* This is how you can include other languages like Spanish.
+  // dictionaryDefinitions - this list defines any custom dictionaries to use.
+  // This is how you can include other languages like Spanish.
   "dictionaryDefinitions": [],
-  //* import - Each configuration file can import more configuration files.
-  //* The files listed in the import are merged from first to last with the parent (the one that did the import) merged at the end.
+  // import - Each configuration file can import more configuration files.
+  // The files listed in the import are merged from first to last with the parent (the one that did the import) merged at the end.
   "import": [],
-  //* ignorePaths - a list of globs to specify which files are to be ignored.
+  // ignorePaths - a list of globs to specify which files are to be ignored.
   "ignorePaths": [
     "**/.git/**",
     "**/coverage/**"
   ],
-  //* ignoreWords - a list of words to be ignored (even if they are in the flagWords).
+  // ignoreWords - a list of words to be ignored (even if they are in the flagWords).
   "ignoreWords": [],
-  //* flagWords - list of words to be always considered incorrect
-  //* This is useful for offensive words and common spelling errors.
-  //* For example "hte" should be "the"
+  // flagWords - list of words to be always considered incorrect
+  // This is useful for offensive words and common spelling errors.
+  // For example "hte" should be "the"
   "flagWords": [],
-  //* words - list of words to be always considered correct
+  // words - list of words to be always considered correct
   "words": [
     ".markdownlintrc",
     "alphanumcase",
