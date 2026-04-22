@@ -1,0 +1,25 @@
+# frozen_string_literal: true
+
+# Extension module for RailsUrlShortener::Visit
+#
+# This module is automatically included into the Visit model by the engine.
+# Add custom associations, validations, scopes, and instance methods here.
+#
+# Example:
+#   included do
+#     scope :recent, -> { where('created_at > ?', 1.week.ago) }
+#   end
+#
+#   def custom_method
+#     # ...
+#   end
+
+module RailsUrlShortener::VisitExtension
+  extend ActiveSupport::Concern
+
+  included do
+    # Add associations, validations, scopes, etc.
+  end
+
+  # Add instance methods here
+end

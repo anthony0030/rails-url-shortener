@@ -1,0 +1,26 @@
+# frozen_string_literal: true
+
+# Extension module for RailsUrlShortener::Url
+#
+# This module is automatically included into the Url model by the engine.
+# Add custom associations, validations, scopes, and instance methods here.
+#
+# Example:
+#   included do
+#     belongs_to :folder, optional: true
+#     scope :featured, -> { where(featured: true) }
+#   end
+#
+#   def custom_method
+#     # ...
+#   end
+
+module RailsUrlShortener::UrlExtension
+  extend ActiveSupport::Concern
+
+  included do
+    # Add associations, validations, scopes, etc.
+  end
+
+  # Add instance methods here
+end

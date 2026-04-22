@@ -1,6 +1,7 @@
 {
   "files.associations": {
-    "LICENSE": "txt"
+    "LICENSE": "txt",
+    "*.rb.tt": "ruby"
   },
   "markdownlint.configFile": ".markdownlintrc"
 }

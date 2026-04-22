@@ -24,6 +24,7 @@ Here are some of the things you can do with RailsUrlShortener:
 * Pause and unpause links on demand
 * Filter URLs by ownership with `owned`, `unowned`, and `active_owned` / `active_unowned` scopes
 * Configurable IP geolocation backend with optional API key support
+* Extend gem models from your host app with generated extension concerns
 
 ## Installation
 
@@ -259,6 +260,43 @@ campaign.promo_links            # => [<RailsUrlShortener::Url>, ...]
 campaign.promo_links_short_urls # => ["https://...", "https://..."]
 campaign.has_promo_links?       # => true / false
 ```
+
+### Extending Models
+
+You can extend the gem's models (`Url`, `Visit`, `Ipgeo`) from your host application without monkey-patching. Run the extensions generator:
+
+```bash
+rails generate rails_url_shortener:extensions
+```
+
+This creates concern files in `app/models/concerns/rails_url_shortener/`:
+
+* `url_extension.rb`
+* `visit_extension.rb`
+* `ipgeo_extension.rb`
+
+The engine automatically includes any defined extension module into its corresponding model. Simply add your custom associations, validations, scopes, and methods to the generated concern:
+
+```ruby
+# app/models/concerns/rails_url_shortener/url_extension.rb
+
+module RailsUrlShortener
+  module UrlExtension
+    extend ActiveSupport::Concern
+
+    included do
+      belongs_to :folder, optional: true
+      scope :featured, -> { where(featured: true) }
+    end
+
+    def custom_title
+      "Short link: #{key}"
+    end
+  end
+end
+```
+
+No initializer or manual `include` call is needed — the extension is picked up automatically on boot.
 
 ## Contributing
 

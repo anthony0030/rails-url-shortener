@@ -1,0 +1,26 @@
+# frozen_string_literal: true
+
+# Extension module for RailsUrlShortener::Ipgeo
+#
+# This module is automatically included into the Ipgeo model by the engine.
+# Add custom associations, validations, scopes, and instance methods here.
+#
+# Example:
+#   included do
+#     scope :local, -> { where(country_code: 'US') }
+#   end
+#
+#   def custom_method
+#     # ...
+#   end
+
+module RailsUrlShortener::IpgeoExtension
+  extend ActiveSupport::Concern
+
+  included do
+    # Add associations, validations, scopes, etc.
+  end
+
+  # Add instance methods here
+end
+

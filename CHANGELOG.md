@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.8.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.7.0...rails_url_shortener/v0.8.0) (2026-04-22)
+
+### Features
+
+* Add model extension support — extend `Url`, `Visit`, and `Ipgeo` models from the host app without monkey-patching
+* Add `rails generate rails_url_shortener:extensions` generator to scaffold extension concern files
+* Extensions are automatically included into their corresponding models via the engine's `to_prepare` hook
+
 ## [0.7.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.14...rails_url_shortener/v0.7.0) (2026-04-22)
 
 ### BREAKING CHANGES
