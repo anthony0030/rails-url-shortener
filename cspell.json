@@ -49,7 +49,8 @@
   // ignorePaths - a list of globs to specify which files are to be ignored.
   "ignorePaths": [
     "**/.git/**",
-    "**/coverage/**"
+    "**/coverage/**",
+    "**/db/**",
   ],
   // ignoreWords - a list of words to be ignored (even if they are in the flagWords).
   "ignoreWords": [],
