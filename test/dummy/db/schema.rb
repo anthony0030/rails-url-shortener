@@ -10,25 +10,47 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_22_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_22_120000) do
   create_table "rails_url_shortener_ipgeos", force: :cascade do |t|
     t.string "as"
-    t.string "city"
-    t.string "country"
+    t.string "asn"
+    t.string "asname"
+    t.string "backend"
+    t.string "city_name"
+    t.string "continent_code"
+    t.string "continent_name"
+    t.float "country_area"
+    t.string "country_calling_code"
+    t.string "country_capital_name"
     t.string "country_code"
+    t.string "country_code_iso3"
+    t.string "country_name"
+    t.string "country_tld"
     t.datetime "created_at", null: false
+    t.string "currency_code"
+    t.string "currency_name"
+    t.string "district"
+    t.string "host_name"
     t.boolean "hosting"
+    t.boolean "in_eu"
     t.string "ip"
+    t.string "ip_version"
     t.string "isp"
-    t.string "lat"
-    t.string "lon"
+    t.string "languages"
+    t.string "latitude"
+    t.string "longitude"
     t.boolean "mobile"
+    t.string "network"
+    t.string "offset"
     t.string "org"
+    t.string "provider"
     t.boolean "proxy"
-    t.string "region"
+    t.string "region_code"
     t.string "region_name"
     t.string "timezone"
     t.datetime "updated_at", null: false
+    t.string "utc_offset"
+    t.string "zip_code"
   end
 
   create_table "rails_url_shortener_urls", force: :cascade do |t|

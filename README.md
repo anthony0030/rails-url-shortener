@@ -23,7 +23,7 @@ Here are some of the things you can do with RailsUrlShortener:
 * Create temporary short links using the expires_at option
 * Pause and unpause links on demand
 * Filter URLs by ownership with `owned`, `unowned`, and `active_owned` / `active_unowned` scopes
-* Get IP data from a third-party service
+* Configurable IP geolocation backend with optional API key support
 
 ## Installation
 
@@ -162,7 +162,46 @@ RailsUrlShortener::Visit.first.ipgeo
 
 ### IP Data Collection
 
-When a Visit record is created, a background job is enqueued to fetch IP data from the [ip-api.com](https://ip-api.com/) service and create an Ipgeo record. This uses the free endpoint, which has a limit of 45 different IPs per minute. If you expect higher traffic, you'll need to implement an alternative solution.
+When a Visit record is created, a background job is enqueued to fetch IP geolocation data and populate an Ipgeo record.
+
+By default, no IP lookup backend is configured and geolocation lookups are skipped. To enable them, set a backend in the initializer:
+
+```ruby
+# Use ipapi.co instead of ip-api.com
+RailsUrlShortener.ip_lookup_backend = RailsUrlShortener::IpLookup::IPAPI_CO
+
+# Provide an API key (for paid tiers or providers that require one)
+RailsUrlShortener.ip_lookup_api_key = ENV['IP_LOOKUP_API_KEY']
+```
+
+Built-in backends:
+
+| Constant                                   | Provider                          | Free tier limit |
+|--------------------------------------------|-----------------------------------|-----------------|
+| `RailsUrlShortener::IpLookup::IP_API_COM`  | [ip-api.com](https://ip-api.com/) | 45 req/min      |
+| `RailsUrlShortener::IpLookup::IPAPI_CO`    | [ipapi.co](https://ipapi.co/)     | 1 000 req/day   |
+
+You can also provide a custom backend — any object that responds to `#call(ip_address, api_key)` and returns a Hash whose keys match the `Ipgeo` column names (underscore-cased strings):
+
+```ruby
+RailsUrlShortener.ip_lookup_backend = lambda { |ip_address, api_key|
+  provider = 'my-provider.example'
+  response = HTTP.get("https://my-provider.example/lookup/#{ip_address}?token=#{api_key}")
+
+  return nil unless response.code == 200
+
+  data = JSON.parse(response.body)
+  {
+    provider:  provider,
+    ip:        ip_address,
+    country:   data['country'],
+    city:      data['city'],
+    latitude:  data['lat'],
+    longitude: data['lng'],
+    # … any other Ipgeo columns you want to populate
+  }
+}
+```
 
 ### Model Integration
 

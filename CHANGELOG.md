@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.7.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.14...rails_url_shortener/v0.7.0) (2026-04-22)
+
+### BREAKING CHANGES
+
+The `rails_url_shortener_ipgeos` table has been updated with renamed and new columns. Run `rails rails_url_shortener:install:migrations && rails db:migrate` after upgrading.
+
+**Renamed columns:**
+
+| Old name  | New name       |
+|-----------|----------------|
+| `country` | `country_name` |
+| `region`  | `region_code`  |
+| `city`    | `city_name`    |
+| `lat`     | `latitude`     |
+| `lon`     | `longitude`    |
+
+**New columns:** `continent_name`, `continent_code`, `district`, `zip_code`, `offset`, `currency_name`, `currency_code`, `asname`, `asn`, `host_name`, `backend`, `network`, `ip_version`, `provider`, `country_capital_name`, `country_tld`, `in_eu`, `country_calling_code`, `languages`, `country_area`, `country_code_iso3`, `utc_offset`
+
+### Features
+
+* Configurable IP geolocation lookup backend via `RailsUrlShortener.ip_lookup_backend`
+* Add `ip_lookup_api_key` configuration for providers that require an API key
+* Built-in backends for [ip-api.com](https://ip-api.com/) and [ipapi.co](https://ipapi.co/)
+* Support custom backends via any object responding to `#call(ip_address, api_key)`
+* Expanded `Ipgeo` schema with 22 new columns for richer geolocation data
+
 ## [0.6.14](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.6.13...rails_url_shortener/v0.6.14) (2026-04-22)
 
 ### Improvements

@@ -3,6 +3,7 @@
 require 'rails_url_shortener/version'
 require 'rails_url_shortener/engine'
 require 'rails_url_shortener/model'
+require 'rails_url_shortener/ip_lookup'
 require_relative '../app/helpers/rails_url_shortener/urls_helper'
 
 module RailsUrlShortener
@@ -50,6 +51,21 @@ module RailsUrlShortener
   ##
   # if true, query parameters from the short URL request are forwarded to the redirect destination
   mattr_accessor :forward_query_params, default: false
+
+  ##
+  # IP geolocation lookup backend.
+  # Must respond to #call(ip_address, api_key) and
+  # Must return a Hash of attributes on success (with underscore keys matching Ipgeo column names)
+  # Must return nil on failure.
+  # Built-in options:
+  #  nil (IP geolocation lookups are skipped)
+  #  RailsUrlShortener::IpLookup::IP_API_COM
+  #  RailsUrlShortener::IpLookup::IPAPI_CO
+  mattr_accessor :ip_lookup_backend, default: nil
+
+  ##
+  # API key passed to the IP lookup backend (optional, depends on provider)
+  mattr_accessor :ip_lookup_api_key, default: nil
 end
 
 ActiveSupport.on_load(:active_record) do

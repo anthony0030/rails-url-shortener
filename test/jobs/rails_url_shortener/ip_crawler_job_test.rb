@@ -25,7 +25,7 @@ module RailsUrlShortener
           IpCrawlerJob.perform_now(visit)
           assert visit.ipgeo
           assert_equal visit.ipgeo.ip, visit.ip
-          assert_equal 'chile', visit.ipgeo.country
+          assert_equal 'chile', visit.ipgeo.country_name
         end
       end
     end
@@ -44,7 +44,7 @@ module RailsUrlShortener
           IpCrawlerJob.perform_now(visit)
           assert visit.ipgeo
           assert_equal visit.ipgeo.ip, visit.ip
-          assert_equal 'Chile', visit.ipgeo.country
+          assert_equal 'Chile', visit.ipgeo.country_name
         end
       end
     end

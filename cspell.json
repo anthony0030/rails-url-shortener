@@ -50,7 +50,7 @@
   "ignorePaths": [
     "**/.git/**",
     "**/coverage/**",
-    "**/db/**",
+    "**/db/**"
   ],
   // ignoreWords - a list of words to be ignored (even if they are in the flagWords).
   "ignoreWords": [],
@@ -69,6 +69,7 @@
     "globalid",
     "gteq",
     "Hamano",
+    "IPAPI",
     "ipgeo",
     "ipgeos",
     "Junio",
