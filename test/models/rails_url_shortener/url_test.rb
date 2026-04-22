@@ -388,5 +388,46 @@ module RailsUrlShortener
       url = Url.generate('https://example.com', password: 'secret123')
       assert_not url.authenticate('wrong')
     end
+
+    # tracked tests
+
+    test 'generate defaults tracked to true' do
+      url = Url.generate('https://example.com')
+      assert url.persisted?
+      assert url.tracked
+    end
+
+    test 'generate with tracked false' do
+      url = Url.generate('https://example.com', tracked: false)
+      assert url.persisted?
+      assert_not url.tracked
+    end
+
+    test 'find_url_by_key! creates visit when tracked is true' do
+      url = Url.generate('https://example.com')
+      assert_difference 'Visit.count', 1 do
+        Url.find_url_by_key!(url.key, request: ActionDispatch::TestRequest.create(
+          'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+        ))
+      end
+    end
+
+    test 'find_url_by_key! does not create visit when tracked is false' do
+      url = Url.generate('https://example.com', tracked: false)
+      assert_no_difference 'Visit.count' do
+        Url.find_url_by_key!(url.key, request: ActionDispatch::TestRequest.create(
+          'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+        ))
+      end
+    end
+
+    test 'find_url_by_key does not create visit when tracked is false' do
+      url = Url.generate('https://example.com', tracked: false)
+      assert_no_difference 'Visit.count' do
+        Url.find_url_by_key(url.key, request: ActionDispatch::TestRequest.create(
+          'HTTP_USER_AGENT' => 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+        ))
+      end
+    end
   end
 end

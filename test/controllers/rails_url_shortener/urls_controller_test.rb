@@ -191,5 +191,31 @@ module RailsUrlShortener
       query = Rack::Utils.parse_query(uri.query)
       assert_equal 'email', query['source']
     end
+
+    # tracked tests
+
+    test 'show does not create visit when tracked is false' do
+      url = Url.generate('https://example.com', tracked: false)
+      assert_no_difference 'Visit.count' do
+        get "/shortener/#{url.key}", headers: {
+          'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+        }
+        assert_response :moved_permanently
+        assert_redirected_to 'https://example.com'
+      end
+    end
+
+    test 'show creates visit when tracked is true' do
+      url = Url.generate('https://example.com')
+      assert_difference 'Visit.count', 1 do
+        assert_enqueued_with(job: IpCrawlerJob) do
+          get "/shortener/#{url.key}", headers: {
+            'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+          }
+          assert_response :moved_permanently
+          assert_redirected_to 'https://example.com'
+        end
+      end
+    end
   end
 end

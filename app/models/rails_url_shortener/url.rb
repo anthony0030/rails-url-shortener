@@ -72,7 +72,7 @@ module RailsUrlShortener
     #
     # if something is wrong return the object with errors
 
-    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil)
+    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true)
       create(
         url: url,
         owner: owner,
@@ -83,7 +83,8 @@ module RailsUrlShortener
         paused: paused,
         category: category,
         forward_query_params: forward_query_params,
-        password: password
+        password: password,
+        tracked: tracked
       )
     end
 
@@ -94,7 +95,7 @@ module RailsUrlShortener
     def self.find_url_by_key!(key, request: nil)
       # Get the token if active (started and not expired)
       url = Url.active.find_by!(key: key)
-      Visit.parse_and_save(url, request) unless request.nil?
+      Visit.parse_and_save(url, request) if request.present? && url.tracked?
       url
     end
 

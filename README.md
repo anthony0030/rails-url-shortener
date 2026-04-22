@@ -26,6 +26,7 @@ Here are some of the things you can do with RailsUrlShortener:
 * Configurable IP geolocation backend with optional API key support
 * Extend gem models from your host app with generated extension concerns
 * Password-protect individual short URLs with HTTP Basic Auth
+* Disable visit tracking and IP lookup on a per-URL basis
 
 ## Installation
 
@@ -87,7 +88,7 @@ RailsUrlShortener::Url.generate("https://www.github.com/a-chacon/rails-url-short
 Full params for the short_url helper:
 
 ```ruby
-short_url(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, url_options: {})
+short_url(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true, url_options: {})
 ```
 
 Where:
@@ -101,12 +102,13 @@ Where:
 * **category**: A tag for categorizing the link
 * **forward_query_params**: Override the global `forward_query_params` setting for this URL (`nil` = use global, `true` = always forward, `false` = never forward)
 * **password**: A plaintext password to protect the URL with HTTP Basic Auth (stored as a bcrypt digest)
+* **tracked**: Boolean to enable/disable visit tracking and IP geolocation for this URL (default: `true`)
 * **url_options**: Options for the URL generator (e.g., subdomain or protocol)
 
 The `generate` model method accepts the same parameters except for `url_options`:
 
 ```ruby
-RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil)
+RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true)
 ```
 
 ### Data Collection
@@ -324,6 +326,20 @@ url.authenticate("wrong")  # => false
 ```
 
 When a visitor opens the short link, the browser displays a standard username/password dialog. They can enter anything (or nothing) for the username — only the password is checked. On success, the visitor is redirected as usual. On failure, a 401 Unauthorized response is returned.
+
+### Disabling Tracking
+
+By default, every visit to a short URL creates a `Visit` record and enqueues an IP geolocation lookup job. You can disable this on a per-URL basis by setting `tracked: false`:
+
+```ruby
+# Via the helper
+short_url("https://example.com/page", tracked: false)
+
+# Via the model
+RailsUrlShortener::Url.generate("https://example.com/page", tracked: false)
+```
+
+When `tracked` is `false`, no `Visit` record is created and no `IpCrawlerJob` is enqueued — the visitor is simply redirected. This is useful for high-traffic links where you don't need analytics, or for privacy-sensitive URLs.
 
 ### Madmin Integration
 

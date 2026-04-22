@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.10.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.9.0...rails_url_shortener/v0.10.0) (2026-04-22)
+
+### Features
+
+* Add per-URL `tracked` option to disable visit tracking and IP geolocation lookup
+* Add `tracked` parameter to `Url.generate` and `short_url` helper (default: `true`)
+
+### Upgrade
+
+Run the following to install the new migration:
+
+```bash
+rails rails_url_shortener:install:migrations && rails db:migrate
+```
+
 ## [0.9.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.8.0...rails_url_shortener/v0.9.0) (2026-04-22)
 
 ### Features
