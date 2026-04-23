@@ -5,6 +5,7 @@ require 'rails_url_shortener/engine'
 require 'rails_url_shortener/model'
 require 'rails_url_shortener/ip_lookup'
 require 'rails_url_shortener/host_constraint'
+require 'rails_url_shortener/root_handler'
 require_relative '../app/helpers/rails_url_shortener/urls_helper'
 
 module RailsUrlShortener
@@ -80,6 +81,12 @@ module RailsUrlShortener
   # Useful when the engine is mounted at root to prevent it from catching
   # requests meant for other hosts.
   mattr_accessor :enforce_host_constraint, default: false
+
+  ##
+  # When true, GET / on the engine redirects to default_redirect
+  # or returns 404 if default_redirect is blank
+  # instead of falling through to the host app.
+  mattr_accessor :block_root, default: false
 
   ##
   # Resolve a custom_host key to an actual hostname.

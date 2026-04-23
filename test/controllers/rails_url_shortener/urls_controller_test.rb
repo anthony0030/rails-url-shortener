@@ -218,6 +218,37 @@ module RailsUrlShortener
       end
     end
 
+    # block_root tests
+
+    test 'root path falls through when block_root is false' do
+      RailsUrlShortener.block_root = false
+      get '/shortener/'
+      assert_response :not_found
+    ensure
+      RailsUrlShortener.block_root = false
+    end
+
+    test 'root path redirects to default_redirect when block_root is true' do
+      RailsUrlShortener.block_root = true
+      RailsUrlShortener.default_redirect = 'https://example.com'
+      get '/shortener/'
+      assert_response :found
+      assert_redirected_to 'https://example.com'
+    ensure
+      RailsUrlShortener.block_root = false
+      RailsUrlShortener.default_redirect = '/'
+    end
+
+    test 'root path returns 404 when block_root is true and default_redirect is blank' do
+      RailsUrlShortener.block_root = true
+      RailsUrlShortener.default_redirect = nil
+      get '/shortener/'
+      assert_response :not_found
+    ensure
+      RailsUrlShortener.block_root = false
+      RailsUrlShortener.default_redirect = '/'
+    end
+
     # host constraint tests
 
     test 'show works when enforce_host_constraint is false regardless of host' do

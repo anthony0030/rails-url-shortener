@@ -29,6 +29,7 @@ Here are some of the things you can do with RailsUrlShortener:
 * Disable visit tracking and IP lookup on a per-URL basis
 * Override the global host on a per-URL basis with `custom_host`
 * Built-in host constraint to restrict the engine to configured short-link domains
+* Block the engine mount root to prevent fall-through to the main app
 
 ## Installation
 
@@ -414,6 +415,31 @@ mount RailsUrlShortener::Engine => '/', constraints: RailsUrlShortener::HostCons
 ```
 
 The constraint checks both `request.host` and `request.host_with_port`, so hosts configured with ports (e.g., `lvh.me:3000`) work correctly.
+
+### Root Blocking
+
+When the engine is mounted at `/`, a request to the bare root (`GET /`) would otherwise fall through to your main app.
+Enable `block_root` to have the engine handle it directly:
+
+```ruby
+# config/initializers/rails_url_shortener.rb
+RailsUrlShortener.block_root = true
+```
+
+The behavior depends on `default_redirect`:
+
+| `default_redirect`                 | Response                  |
+|------------------------------------|---------------------------|
+| Set (e.g. `'/404'`)                | 302 redirect to that URL  |
+| Blank / `nil`                      | 404                       |
+
+This is particularly useful when combined with `enforce_host_constraint` — together they ensure a dedicated short-link domain never exposes your main app's routes:
+
+```ruby
+RailsUrlShortener.enforce_host_constraint = true
+RailsUrlShortener.block_root              = true
+RailsUrlShortener.default_redirect        = '/404'
+```
 
 ### Madmin Integration
 

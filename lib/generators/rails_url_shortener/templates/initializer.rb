@@ -29,3 +29,8 @@ RailsUrlShortener.ip_lookup_backend = RailsUrlShortener::IpLookup::IP_API_COM
 # RailsUrlShortener.host or a value in custom_hosts. Useful when the engine
 # is mounted at root to avoid catching requests for your main app.
 # RailsUrlShortener.enforce_host_constraint = true
+
+# When true, GET / on the engine redirects to default_redirect
+# or returns 404 if default_redirect is blank
+# instead of falling through to the host app.
+# RailsUrlShortener.block_root = true

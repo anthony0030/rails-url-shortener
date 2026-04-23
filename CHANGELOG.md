@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.13.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.12.0...rails_url_shortener/v0.13.0) (2026-04-23)
+
+### Features
+
+* Add `RailsUrlShortener.block_root` config option (default: `false`) — when `true`, the engine responds to `GET /` (the mount point root) instead of letting requests fall through to the host app
+* When `block_root` is `true` and `default_redirect` is set, the root redirects (302) to `default_redirect`
+* When `block_root` is `true` and `default_redirect` is blank, the root returns a bare 404
+* Extract root-handling logic into `RailsUrlShortener::RootHandler` Rack class, keeping routes clean
+
 ## [0.12.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.11.0...rails_url_shortener/v0.12.0) (2026-04-23)
 
 ### Features
