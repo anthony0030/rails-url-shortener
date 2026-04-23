@@ -4,6 +4,7 @@ require 'rails_url_shortener/version'
 require 'rails_url_shortener/engine'
 require 'rails_url_shortener/model'
 require 'rails_url_shortener/ip_lookup'
+require 'rails_url_shortener/host_constraint'
 require_relative '../app/helpers/rails_url_shortener/urls_helper'
 
 module RailsUrlShortener
@@ -72,6 +73,13 @@ module RailsUrlShortener
   # Example: { 'marketing' => 'mkt.example.com', 'support' => 'help.example.com' }
   # Used by to_short_url and short_url to resolve the custom_host column value.
   mattr_accessor :custom_hosts, default: {}
+
+  ##
+  # When true, the engine's route only matches requests whose host is in the
+  # allowed hosts list (RailsUrlShortener.host + custom_hosts values).
+  # Useful when the engine is mounted at root to prevent it from catching
+  # requests meant for other hosts.
+  mattr_accessor :enforce_host_constraint, default: false
 
   ##
   # Resolve a custom_host key to an actual hostname.

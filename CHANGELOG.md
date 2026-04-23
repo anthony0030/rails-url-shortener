@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.12.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.11.0...rails_url_shortener/v0.12.0) (2026-04-23)
+
+### Features
+
+* Add `RailsUrlShortener::HostConstraint` routing constraint that restricts the engine to configured short-link hosts only
+* Add `RailsUrlShortener.enforce_host_constraint` config option (default: `false`) — when `true`, only requests to `host` and `custom_hosts` values are served
+* The constraint is automatically applied to the engine's route — no manual route changes needed
+* The constraint can also be applied manually via `constraints: RailsUrlShortener::HostConstraint`
+
 ## [0.11.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.10.0...rails_url_shortener/v0.11.0) (2026-04-23)
 
 ### Features

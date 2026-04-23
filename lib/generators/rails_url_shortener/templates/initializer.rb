@@ -24,3 +24,8 @@ RailsUrlShortener.ip_lookup_backend = RailsUrlShortener::IpLookup::IP_API_COM
 #   'marketing' => ENV.fetch('MARKETING_SHORT_HOST', 'localhost:3000'),
 #   'support'   => ENV.fetch('SUPPORT_SHORT_HOST', 'localhost:3000'),
 # }
+
+# When true, the engine only serves requests whose Host header matches
+# RailsUrlShortener.host or a value in custom_hosts. Useful when the engine
+# is mounted at root to avoid catching requests for your main app.
+# RailsUrlShortener.enforce_host_constraint = true

@@ -28,6 +28,7 @@ Here are some of the things you can do with RailsUrlShortener:
 * Password-protect individual short URLs with HTTP Basic Auth
 * Disable visit tracking and IP lookup on a per-URL basis
 * Override the global host on a per-URL basis with `custom_host`
+* Built-in host constraint to restrict the engine to configured short-link domains
 
 ## Installation
 
@@ -379,6 +380,40 @@ RailsUrlShortener.resolve_host('marketing') # => "mkt.example.com"
 RailsUrlShortener.resolve_host('unknown')   # => RailsUrlShortener.host (fallback)
 RailsUrlShortener.resolve_host(nil)         # => RailsUrlShortener.host (fallback)
 ```
+
+### Host Constraint
+
+When the engine is mounted at a path like `/` or a catch-all route, requests intended for your main app may accidentally match the shortener. You can restrict the engine to only respond on configured short-link hosts by enabling the host constraint:
+
+```ruby
+# config/initializers/rails_url_shortener.rb
+RailsUrlShortener.enforce_host_constraint = true
+```
+
+When enabled, the engine's route only matches requests whose `Host` header matches `RailsUrlShortener.host` or any value in `RailsUrlShortener.custom_hosts`. Requests from other hosts receive a 404.
+
+The allowed hosts are derived automatically from your existing configuration — no need to list them twice:
+
+```ruby
+RailsUrlShortener.host = ENV.fetch('SHORT_HOST', 'lvh.me:3000')
+RailsUrlShortener.custom_hosts = {
+  'gt'  => ENV.fetch('SHORT_HOST_GT', 'lvh.me:3000'),
+  'thr' => ENV.fetch('SHORT_HOST_THR', 'lvh.me:3000'),
+}
+RailsUrlShortener.enforce_host_constraint = true
+
+# In production: only short.go-thassos.gr, short.thr.gr serve short URLs
+# In development: lvh.me:3000 serves all short URLs
+```
+
+You can also apply the constraint manually at the mount point instead of using the automatic mode:
+
+```ruby
+# config/routes.rb
+mount RailsUrlShortener::Engine => '/', constraints: RailsUrlShortener::HostConstraint
+```
+
+The constraint checks both `request.host` and `request.host_with_port`, so hosts configured with ports (e.g., `lvh.me:3000`) work correctly.
 
 ### Madmin Integration
 

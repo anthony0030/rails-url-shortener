@@ -14,6 +14,7 @@ gem 'sprockets-rails'
 
 group :development, :test do
   gem 'byebug'
+  gem 'ostruct'
   gem 'db-annotate'
   gem 'faker'
   gem 'minitest'
