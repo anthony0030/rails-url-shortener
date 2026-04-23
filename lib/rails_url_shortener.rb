@@ -66,6 +66,21 @@ module RailsUrlShortener
   ##
   # API key passed to the IP lookup backend (optional, depends on provider)
   mattr_accessor :ip_lookup_api_key, default: nil
+
+  ##
+  # Mapping of logical custom_host keys to actual hostnames per environment.
+  # Example: { 'marketing' => 'mkt.example.com', 'support' => 'help.example.com' }
+  # Used by to_short_url and short_url to resolve the custom_host column value.
+  mattr_accessor :custom_hosts, default: {}
+
+  ##
+  # Resolve a custom_host key to an actual hostname.
+  # Returns the mapped hostname if found, otherwise falls back to the global host.
+  def self.resolve_host(custom_host_key)
+    return host if custom_host_key.blank?
+
+    custom_hosts.fetch(custom_host_key, host)
+  end
 end
 
 ActiveSupport.on_load(:active_record) do

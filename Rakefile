@@ -40,4 +40,12 @@ Rake::TestTask.new(:test) do |t|
   t.test_files = FileList['test/**/*test.rb']
 end
 
+task :test_prepare do
+  # Drop and recreate only the test DB from schema so migrations never get stuck
+  Rake::Task['app:db:test:purge'].invoke
+  Rake::Task['app:db:schema:load'].invoke
+end
+
+task test: :test_prepare
+
 task default: %i[test]

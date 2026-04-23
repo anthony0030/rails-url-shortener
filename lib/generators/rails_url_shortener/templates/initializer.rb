@@ -17,3 +17,10 @@ RailsUrlShortener.disable_url_key_updates = false        # if true, prevents the
 RailsUrlShortener.forward_query_params = false           # if true, forwards query params from short URL to redirect destination
 RailsUrlShortener.ip_lookup_backend = RailsUrlShortener::IpLookup::IP_API_COM
 # RailsUrlShortener.ip_lookup_api_key = ENV['IP_LOOKUP_API_KEY']
+
+# Map logical custom_host keys to actual hostnames per environment.
+# URLs with a custom_host value will resolve through this mapping.
+# RailsUrlShortener.custom_hosts = {
+#   'marketing' => ENV.fetch('MARKETING_SHORT_HOST', 'localhost:3000'),
+#   'support'   => ENV.fetch('SUPPORT_SHORT_HOST', 'localhost:3000'),
+# }

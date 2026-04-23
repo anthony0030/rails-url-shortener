@@ -429,5 +429,68 @@ module RailsUrlShortener
         ))
       end
     end
+
+    # custom_host tests
+
+    test 'generate with custom_host stores the key' do
+      url = Url.generate('https://example.com', custom_host: 'marketing')
+      assert url.persisted?
+      assert_equal 'marketing', url.custom_host
+    end
+
+    test 'generate without custom_host leaves it nil' do
+      url = Url.generate('https://example.com')
+      assert url.persisted?
+      assert_nil url.custom_host
+    end
+
+    test 'to_short_url resolves custom_host key via custom_hosts mapping' do
+      RailsUrlShortener.custom_hosts = { 'marketing' => 'mkt.example.com' }
+      url = Url.generate('https://example.com', custom_host: 'marketing')
+      assert_includes url.to_short_url, 'mkt.example.com'
+      assert_not_includes url.to_short_url, RailsUrlShortener.host
+    ensure
+      RailsUrlShortener.custom_hosts = {}
+    end
+
+    test 'to_short_url falls back to global host when custom_host key is not in mapping' do
+      RailsUrlShortener.custom_hosts = {}
+      url = Url.generate('https://example.com', custom_host: 'unknown')
+      assert_includes url.to_short_url, RailsUrlShortener.host
+    ensure
+      RailsUrlShortener.custom_hosts = {}
+    end
+
+    test 'to_short_url falls back to global host when custom_host is nil' do
+      url = Url.generate('https://example.com')
+      assert_includes url.to_short_url, RailsUrlShortener.host
+    end
+
+    test 'to_short_url falls back to global host when custom_host is blank' do
+      url = Url.generate('https://example.com', custom_host: '')
+      assert_includes url.to_short_url, RailsUrlShortener.host
+    end
+
+    # resolve_host tests
+
+    test 'resolve_host returns mapped host for known key' do
+      RailsUrlShortener.custom_hosts = { 'support' => 'help.example.com' }
+      assert_equal 'help.example.com', RailsUrlShortener.resolve_host('support')
+    ensure
+      RailsUrlShortener.custom_hosts = {}
+    end
+
+    test 'resolve_host returns global host for unknown key' do
+      RailsUrlShortener.custom_hosts = {}
+      assert_equal RailsUrlShortener.host, RailsUrlShortener.resolve_host('unknown')
+    end
+
+    test 'resolve_host returns global host for nil' do
+      assert_equal RailsUrlShortener.host, RailsUrlShortener.resolve_host(nil)
+    end
+
+    test 'resolve_host returns global host for blank string' do
+      assert_equal RailsUrlShortener.host, RailsUrlShortener.resolve_host('')
+    end
   end
 end

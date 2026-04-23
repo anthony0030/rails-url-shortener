@@ -27,6 +27,7 @@ Here are some of the things you can do with RailsUrlShortener:
 * Extend gem models from your host app with generated extension concerns
 * Password-protect individual short URLs with HTTP Basic Auth
 * Disable visit tracking and IP lookup on a per-URL basis
+* Override the global host on a per-URL basis with `custom_host`
 
 ## Installation
 
@@ -88,7 +89,7 @@ RailsUrlShortener::Url.generate("https://www.github.com/a-chacon/rails-url-short
 Full params for the short_url helper:
 
 ```ruby
-short_url(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true, url_options: {})
+short_url(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true, custom_host: nil, url_options: {})
 ```
 
 Where:
@@ -103,12 +104,13 @@ Where:
 * **forward_query_params**: Override the global `forward_query_params` setting for this URL (`nil` = use global, `true` = always forward, `false` = never forward)
 * **password**: A plaintext password to protect the URL with HTTP Basic Auth (stored as a bcrypt digest)
 * **tracked**: Boolean to enable/disable visit tracking and IP geolocation for this URL (default: `true`)
+* **custom_host**: A logical key that maps to a hostname via `RailsUrlShortener.custom_hosts` (e.g., `'marketing'`). Falls back to `RailsUrlShortener.host` when `nil` or unmapped
 * **url_options**: Options for the URL generator (e.g., subdomain or protocol)
 
 The `generate` model method accepts the same parameters except for `url_options`:
 
 ```ruby
-RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true)
+RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true, custom_host: nil)
 ```
 
 ### Data Collection
@@ -340,6 +342,43 @@ RailsUrlShortener::Url.generate("https://example.com/page", tracked: false)
 ```
 
 When `tracked` is `false`, no `Visit` record is created and no `IpCrawlerJob` is enqueued — the visitor is simply redirected. This is useful for high-traffic links where you don't need analytics, or for privacy-sensitive URLs.
+
+### Custom Host
+
+By default, all short URLs use the global `RailsUrlShortener.host`. You can serve different short URLs from different domains by assigning a logical `custom_host` key and mapping it to an actual hostname per environment.
+
+First, define the mapping in your initializer:
+
+```ruby
+# config/initializers/rails_url_shortener.rb
+RailsUrlShortener.custom_hosts = {
+  'marketing' => ENV.fetch('MARKETING_SHORT_HOST', 'lvh.me:3000'),
+  'support'   => ENV.fetch('SUPPORT_SHORT_HOST', 'lvh.me:3000'),
+}
+```
+
+Then create URLs with a logical key:
+
+```ruby
+# Via the helper
+short_url("https://example.com/page", custom_host: "marketing")
+
+# Via the model
+url = RailsUrlShortener::Url.generate("https://example.com/page", custom_host: "marketing")
+url.to_short_url # => "https://mkt.example.com/shortener/abc123" (in production)
+```
+
+The `custom_host` column stores the logical key (`"marketing"`), not an actual hostname. This keeps your database environment-agnostic — the same records work in development (where the key resolves to `lvh.me:3000`) and production (where it resolves to `mkt.example.com`).
+
+If a `custom_host` key is not found in the mapping, or is `nil`/blank, the global `RailsUrlShortener.host` is used as a fallback.
+
+You can also resolve hosts programmatically:
+
+```ruby
+RailsUrlShortener.resolve_host('marketing') # => "mkt.example.com"
+RailsUrlShortener.resolve_host('unknown')   # => RailsUrlShortener.host (fallback)
+RailsUrlShortener.resolve_host(nil)         # => RailsUrlShortener.host (fallback)
+```
 
 ### Madmin Integration
 

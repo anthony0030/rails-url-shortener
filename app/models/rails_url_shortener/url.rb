@@ -72,7 +72,7 @@ module RailsUrlShortener
     #
     # if something is wrong return the object with errors
 
-    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true)
+    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true, custom_host: nil)
       create(
         url: url,
         owner: owner,
@@ -84,7 +84,8 @@ module RailsUrlShortener
         category: category,
         forward_query_params: forward_query_params,
         password: password,
-        tracked: tracked
+        tracked: tracked,
+        custom_host: custom_host
       )
     end
 
@@ -119,7 +120,7 @@ module RailsUrlShortener
     #
     def to_short_url(secure: true, params: {})
       protocol = secure ? 'https://' : 'http://'
-      host = RailsUrlShortener.host
+      host = RailsUrlShortener.resolve_host(custom_host)
       path = Rails.application.routes.url_helpers.rails_url_shortener_path
 
       base = [protocol, host, path, "/#{key}"].reject { _1 == '/' }.join

@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.11.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.10.0...rails_url_shortener/v0.11.0) (2026-04-23)
+
+### Features
+
+* Add per-URL `custom_host` option to override the global `RailsUrlShortener.host` on individual URLs
+* Add `RailsUrlShortener.custom_hosts` mapping to resolve logical keys to actual hostnames per environment
+* Add `RailsUrlShortener.resolve_host` method used by `to_short_url` and `short_url` helper
+* `custom_host` stores a logical key in the database, keeping records environment-agnostic
+
+### Improvements
+
+* `rake test` now automatically migrates the test database before running tests — no more manual migration steps after adding new migrations
+
+### Upgrade
+
+Run the following to install the new migration:
+
+```bash
+rails rails_url_shortener:install:migrations && rails db:migrate
+```
+
 ## [0.10.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.9.0...rails_url_shortener/v0.10.0) (2026-04-22)
 
 ### Features
