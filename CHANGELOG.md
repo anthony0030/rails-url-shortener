@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.14.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.13.1...rails_url_shortener/v0.14.0) (2026-04-23)
+
+### Features
+
+* Add `RailsUrlShortener::Url#clear_password!` to remove password protection from an existing short URL
+
 ## [0.13.1](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.13.0...rails_url_shortener/v0.13.1) (2026-04-23)
 
 ### Fixes

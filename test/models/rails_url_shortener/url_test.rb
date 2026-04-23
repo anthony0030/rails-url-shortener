@@ -389,6 +389,25 @@ module RailsUrlShortener
       assert_not url.authenticate('wrong')
     end
 
+    test 'clear_password! removes password protection' do
+      url = Url.generate('https://example.com', password: 'secret123')
+      assert url.password_protected?
+
+      url.clear_password!
+
+      assert_not url.password_protected?
+      assert_nil url.password_digest
+    end
+
+    test 'clear_password! makes authentication fail' do
+      url = Url.generate('https://example.com', password: 'secret123')
+      assert url.authenticate('secret123')
+
+      url.clear_password!
+
+      assert_not url.authenticate('secret123')
+    end
+
     # tracked tests
 
     test 'generate defaults tracked to true' do

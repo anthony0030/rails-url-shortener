@@ -156,6 +156,13 @@ module RailsUrlShortener
     end
 
     ##
+    # Removes password protection from this URL.
+    #
+    def clear_password!
+      update!(password_digest: nil)
+    end
+
+    ##
     # Returns the current status of the URL as a symbol.
     #
     # :paused   - URL is manually paused

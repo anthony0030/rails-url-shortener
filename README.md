@@ -26,6 +26,7 @@ Here are some of the things you can do with RailsUrlShortener:
 * Configurable IP geolocation backend with optional API key support
 * Extend gem models from your host app with generated extension concerns
 * Password-protect individual short URLs with HTTP Basic Auth
+* Remove password protection from existing short URLs with `clear_password!`
 * Disable visit tracking and IP lookup on a per-URL basis
 * Override the global host on a per-URL basis with `custom_host`
 * Built-in host constraint to restrict the engine to configured short-link domains
@@ -327,6 +328,14 @@ url = RailsUrlShortener::Url.find_by(key: "abc123")
 url.password_protected? # => true
 url.authenticate("s3cret") # => <Url> (truthy)
 url.authenticate("wrong")  # => false
+```
+
+You can also remove password protection from an existing URL:
+
+```ruby
+url = RailsUrlShortener::Url.find_by(key: "abc123")
+url.clear_password!
+url.password_protected? # => false
 ```
 
 When a visitor opens the short link, the browser displays a standard username/password dialog. They can enter anything (or nothing) for the username — only the password is checked. On success, the visitor is redirected as usual. On failure, a 401 Unauthorized response is returned.
