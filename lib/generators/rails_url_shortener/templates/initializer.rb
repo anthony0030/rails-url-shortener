@@ -34,3 +34,8 @@ RailsUrlShortener.ip_lookup_backend = RailsUrlShortener::IpLookup::IP_API_COM
 # or returns 404 if default_redirect is blank
 # instead of falling through to the host app.
 # RailsUrlShortener.block_root = true
+
+# HTTP redirect status code for short URL redirects (default: 301).
+# Can be overridden per-URL via the redirect_status column.
+# Valid values: 301 (Moved Permanently), 302 (Found), 303 (See Other), 307 (Temporary), 308 (Permanent)
+# RailsUrlShortener.redirect_status = 301

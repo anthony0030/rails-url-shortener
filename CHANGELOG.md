@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.15.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.14.0...rails_url_shortener/v0.15.0) (2026-04-23)
+
+### Features
+
+* Add configurable HTTP redirect status codes (301, 302, 303, 307, 308) for short URL redirects
+* Add `RailsUrlShortener.redirect_status` global config (default: 301)
+* Add per-URL `redirect_status` column to override global setting on individual URLs
+* Add `Url::REDIRECT_STATUSES` const with status codes and descriptions for dropdowns
+* Per-URL redirect status takes precedence over global config
+
 ## [0.14.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.13.1...rails_url_shortener/v0.14.0) (2026-04-23)
 
 ### Features

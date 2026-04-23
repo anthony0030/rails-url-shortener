@@ -34,7 +34,7 @@ module RailsUrlShortener
         end
       end
 
-      redirect_to destination, status: :moved_permanently
+      redirect_to destination, status: url.effective_redirect_status
     end
 
     private

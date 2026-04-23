@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_23_100000) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_23_150000) do
   create_table "rails_url_shortener_ipgeos", force: :cascade do |t|
     t.string "as"
     t.string "asn"
@@ -65,6 +65,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_23_100000) do
     t.string "owner_type"
     t.string "password_digest"
     t.boolean "paused", default: false, null: false
+    t.integer "redirect_status", default: 301
     t.datetime "starts_at"
     t.boolean "tracked", default: true, null: false
     t.datetime "updated_at", null: false

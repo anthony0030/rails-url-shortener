@@ -218,6 +218,48 @@ module RailsUrlShortener
       end
     end
 
+    # redirect_status tests
+
+    test 'show uses global redirect_status by default' do
+      original_status = RailsUrlShortener.redirect_status
+      RailsUrlShortener.redirect_status = 302
+      url = Url.generate('https://example.com')
+      get "/shortener/#{url.key}", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+      }
+      assert_response :found
+    ensure
+      RailsUrlShortener.redirect_status = original_status
+    end
+
+    test 'show uses per-URL redirect_status when set' do
+      original_status = RailsUrlShortener.redirect_status
+      RailsUrlShortener.redirect_status = 301
+      url = Url.generate('https://example.com', redirect_status: 302)
+      get "/shortener/#{url.key}", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+      }
+      assert_response :found
+    ensure
+      RailsUrlShortener.redirect_status = original_status
+    end
+
+    test 'show uses 307 redirect status when set' do
+      url = Url.generate('https://example.com', redirect_status: 307)
+      get "/shortener/#{url.key}", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+      }
+      assert_response :temporary_redirect
+    end
+
+    test 'show uses 308 redirect status when set' do
+      url = Url.generate('https://example.com', redirect_status: 308)
+      get "/shortener/#{url.key}", headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:89.0) Gecko/20100101 Firefox/89.0'
+      }
+      assert_response :permanent_redirect
+    end
+
     # block_root tests
 
     test 'root path falls through when block_root is false' do

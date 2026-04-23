@@ -15,7 +15,8 @@ Why give your data to a third-party app when you can manage it yourself?
 Here are some of the things you can do with RailsUrlShortener:
 
 * Generate unique keys for links
-* Provide a controller method that finds, saves request information, and performs a 301 redirect to the original URL
+* Provide a controller method that finds, saves request information, and performs a redirect to the original URL (status code configurable)
+* Configurable HTTP redirect status codes (301, 302, 303, 307, 308) per-URL or globally
 * Associate short links with models in your app
 * Save browser, system, and IP data from each request
 * Track query parameters (e.g., `source`, `campaign`) from short URL visits
@@ -92,7 +93,7 @@ RailsUrlShortener::Url.generate("https://www.github.com/a-chacon/rails-url-short
 Full params for the short_url helper:
 
 ```ruby
-short_url(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true, custom_host: nil, url_options: {})
+short_url(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true, custom_host: nil, redirect_status: nil, url_options: {})
 ```
 
 Where:
@@ -108,12 +109,13 @@ Where:
 * **password**: A plaintext password to protect the URL with HTTP Basic Auth (stored as a bcrypt digest)
 * **tracked**: Boolean to enable/disable visit tracking and IP geolocation for this URL (default: `true`)
 * **custom_host**: A logical key that maps to a hostname via `RailsUrlShortener.custom_hosts` (e.g., `'marketing'`). Mapping keys can be strings or symbols. Falls back to `RailsUrlShortener.host` when `nil` or unmapped
+* **redirect_status**: HTTP redirect status code (301, 302, 303, 307, 308). When `nil`, uses `RailsUrlShortener.redirect_status` (default: 301)
 * **url_options**: Options for the URL generator (e.g., subdomain or protocol)
 
 The `generate` model method accepts the same parameters except for `url_options`:
 
 ```ruby
-RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true, custom_host: nil)
+RailsUrlShortener::Url.generate(url, owner: nil, kind: nil, key: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true, custom_host: nil, redirect_status: nil)
 ```
 
 ### Data Collection
@@ -457,6 +459,40 @@ This is particularly useful when combined with `enforce_host_constraint` — tog
 RailsUrlShortener.enforce_host_constraint = true
 RailsUrlShortener.block_root              = true
 RailsUrlShortener.default_redirect        = '/404'
+```
+
+### Redirect Status
+
+By default, short URL redirects use HTTP 301 (Moved Permanently). You can customize this globally or per-URL to use other 30X status codes (302, 303, 307, 308).
+
+Set a global redirect status in your initializer:
+
+```ruby
+# config/initializers/rails_url_shortener.rb
+RailsUrlShortener.redirect_status = 302  # Found (Temporary)
+```
+
+Or override it per-URL:
+
+```ruby
+# Via the helper
+short_url("https://example.com/page", redirect_status: 307)
+
+# Via the model
+RailsUrlShortener::Url.generate("https://example.com/page", redirect_status: 307)
+```
+
+Supported redirect codes:
+- `301` - Moved Permanently (browser caches the redirect)
+- `302` - Found (Temporary redirect, browser doesn't cache)
+- `303` - See Other (forces GET on destination)
+- `307` - Temporary Redirect (preserves request method)
+- `308` - Permanent Redirect (preserves request method)
+
+For Madmin forms, use the `REDIRECT_STATUSES` const:
+
+```ruby
+RailsUrlShortener::Url::REDIRECT_STATUSES  # => { 301 => 'Moved Permanently', 302 => 'Found (Temporary)', ... }
 ```
 
 ### Madmin Integration

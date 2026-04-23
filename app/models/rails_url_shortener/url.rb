@@ -22,6 +22,15 @@ module RailsUrlShortener
   class Url < ApplicationRecord
     has_secure_password validations: false
 
+    # HTTP redirect status codes with descriptions for UI dropdowns
+    REDIRECT_STATUSES = {
+      301 => '301 Moved Permanently',
+      302 => '302 Found (Temporary)',
+      303 => '303 See Other',
+      307 => '307 Temporary Redirect',
+      308 => '308 Permanent Redirect',
+    }.freeze
+
     # variables
     attr_accessor :generating_retries, :key_length
 
@@ -72,7 +81,7 @@ module RailsUrlShortener
     #
     # if something is wrong return the object with errors
 
-    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true, custom_host: nil)
+    def self.generate(url, owner: nil, key: nil, kind: nil, starts_at: nil, expires_at: nil, paused: false, category: nil, forward_query_params: nil, password: nil, tracked: true, custom_host: nil, redirect_status: nil)
       create(
         url: url,
         owner: owner,
@@ -85,7 +94,8 @@ module RailsUrlShortener
         forward_query_params: forward_query_params,
         password: password,
         tracked: tracked,
-        custom_host: custom_host
+        custom_host: custom_host,
+        redirect_status: redirect_status
       )
     end
 
@@ -160,6 +170,15 @@ module RailsUrlShortener
     #
     def clear_password!
       update!(password_digest: nil)
+    end
+
+    ##
+    # Returns the effective redirect status for this URL.
+    # Uses per-URL redirect_status when present, otherwise falls back
+    # to the global RailsUrlShortener.redirect_status.
+    #
+    def effective_redirect_status
+      redirect_status || RailsUrlShortener.redirect_status
     end
 
     ##

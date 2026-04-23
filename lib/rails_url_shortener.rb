@@ -89,6 +89,12 @@ module RailsUrlShortener
   mattr_accessor :block_root, default: false
 
   ##
+  # HTTP redirect status code to use for short URL redirects (default: 301).
+  # Can be overridden per-URL via the redirect_status column.
+  # Valid values: 301, 302, 303, 307, 308
+  mattr_accessor :redirect_status, default: 301
+
+  ##
   # Resolve a custom_host key to an actual hostname.
   # Returns the mapped hostname if found, otherwise falls back to the global host.
   def self.resolve_host(custom_host_key)

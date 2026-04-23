@@ -518,5 +518,52 @@ module RailsUrlShortener
     test 'resolve_host returns global host for blank string' do
       assert_equal RailsUrlShortener.host, RailsUrlShortener.resolve_host('')
     end
+
+    # redirect_status tests
+
+    test 'generate with redirect_status stores the status' do
+      url = Url.generate('https://example.com', redirect_status: 302)
+      assert url.persisted?
+      assert_equal 302, url.redirect_status
+    end
+
+    test 'generate without redirect_status defaults to nil' do
+      url = Url.generate('https://example.com')
+      assert url.persisted?
+      assert_nil url.redirect_status
+    end
+
+    test 'effective_redirect_status returns per-URL status when present' do
+      original_status = RailsUrlShortener.redirect_status
+      RailsUrlShortener.redirect_status = 301
+      url = Url.generate('https://example.com', redirect_status: 307)
+      assert_equal 307, url.effective_redirect_status
+    ensure
+      RailsUrlShortener.redirect_status = original_status
+    end
+
+    test 'effective_redirect_status returns global status when per-URL is nil' do
+      original_status = RailsUrlShortener.redirect_status
+      RailsUrlShortener.redirect_status = 302
+      url = Url.generate('https://example.com', redirect_status: nil)
+      assert_equal 302, url.effective_redirect_status
+    ensure
+      RailsUrlShortener.redirect_status = original_status
+    end
+
+    test 'REDIRECT_STATUSES const has all valid codes' do
+      valid_codes = [301, 302, 303, 307, 308]
+      valid_codes.each do |code|
+        assert Url::REDIRECT_STATUSES.key?(code), "Code #{code} should be in REDIRECT_STATUSES"
+      end
+    end
+
+    test 'REDIRECT_STATUSES descriptions are useful for UI' do
+      assert_equal '301 Moved Permanently', Url::REDIRECT_STATUSES[301]
+      assert_equal '302 Found (Temporary)', Url::REDIRECT_STATUSES[302]
+      assert_equal '303 See Other', Url::REDIRECT_STATUSES[303]
+      assert_equal '307 Temporary Redirect', Url::REDIRECT_STATUSES[307]
+      assert_equal '308 Permanent Redirect', Url::REDIRECT_STATUSES[308]
+    end
   end
 end
