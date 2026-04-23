@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.1](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.13.0...rails_url_shortener/v0.13.1) (2026-04-23)
+
+### Fixes
+
+* Make `RailsUrlShortener.resolve_host` work with both string and symbol keys in `RailsUrlShortener.custom_hosts`
+* Keep fallback behavior unchanged: unknown or blank keys still resolve to `RailsUrlShortener.host`
+
 ## [0.13.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.12.0...rails_url_shortener/v0.13.0) (2026-04-23)
 
 ### Features

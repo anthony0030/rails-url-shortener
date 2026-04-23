@@ -480,6 +480,13 @@ module RailsUrlShortener
       RailsUrlShortener.custom_hosts = {}
     end
 
+    test 'resolve_host returns mapped host when mapping keys are symbols' do
+      RailsUrlShortener.custom_hosts = { support: 'help.example.com' }
+      assert_equal 'help.example.com', RailsUrlShortener.resolve_host('support')
+    ensure
+      RailsUrlShortener.custom_hosts = {}
+    end
+
     test 'resolve_host returns global host for unknown key' do
       RailsUrlShortener.custom_hosts = {}
       assert_equal RailsUrlShortener.host, RailsUrlShortener.resolve_host('unknown')

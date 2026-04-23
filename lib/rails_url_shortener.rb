@@ -94,7 +94,7 @@ module RailsUrlShortener
   def self.resolve_host(custom_host_key)
     return host if custom_host_key.blank?
 
-    custom_hosts.fetch(custom_host_key, host)
+    custom_hosts[custom_host_key.to_s] || custom_hosts[custom_host_key.to_sym] || host
   end
 end
 

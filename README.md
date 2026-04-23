@@ -106,7 +106,7 @@ Where:
 * **forward_query_params**: Override the global `forward_query_params` setting for this URL (`nil` = use global, `true` = always forward, `false` = never forward)
 * **password**: A plaintext password to protect the URL with HTTP Basic Auth (stored as a bcrypt digest)
 * **tracked**: Boolean to enable/disable visit tracking and IP geolocation for this URL (default: `true`)
-* **custom_host**: A logical key that maps to a hostname via `RailsUrlShortener.custom_hosts` (e.g., `'marketing'`). Falls back to `RailsUrlShortener.host` when `nil` or unmapped
+* **custom_host**: A logical key that maps to a hostname via `RailsUrlShortener.custom_hosts` (e.g., `'marketing'`). Mapping keys can be strings or symbols. Falls back to `RailsUrlShortener.host` when `nil` or unmapped
 * **url_options**: Options for the URL generator (e.g., subdomain or protocol)
 
 The `generate` model method accepts the same parameters except for `url_options`:
@@ -356,6 +356,15 @@ First, define the mapping in your initializer:
 RailsUrlShortener.custom_hosts = {
   'marketing' => ENV.fetch('MARKETING_SHORT_HOST', 'lvh.me:3000'),
   'support'   => ENV.fetch('SUPPORT_SHORT_HOST', 'lvh.me:3000'),
+}
+```
+
+String and symbol keys are both supported:
+
+```ruby
+RailsUrlShortener.custom_hosts = {
+  marketing: ENV.fetch('MARKETING_SHORT_HOST', 'lvh.me:3000'),
+  support:   ENV.fetch('SUPPORT_SHORT_HOST', 'lvh.me:3000'),
 }
 ```
 
