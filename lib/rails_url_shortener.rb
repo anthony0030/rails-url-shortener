@@ -76,13 +76,6 @@ module RailsUrlShortener
   mattr_accessor :custom_hosts, default: {}
 
   ##
-  # When true, the engine's route only matches requests whose host is in the
-  # allowed hosts list (RailsUrlShortener.host + custom_hosts values).
-  # Useful when the engine is mounted at root to prevent it from catching
-  # requests meant for other hosts.
-  mattr_accessor :enforce_host_constraint, default: false
-
-  ##
   # When true, GET / on the engine redirects to default_redirect
   # or returns 404 if default_redirect is blank
   # instead of falling through to the host app.

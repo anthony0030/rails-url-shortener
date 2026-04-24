@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.15.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.15.0...rails_url_shortener/v0.15.1) (2026-04-23)
+
+### Fixes
+
+* Problem with routing
+* Remove `RailsUrlShortener.enforce_host_constraint`; use route-level constraint mounting: `mount RailsUrlShortener::Engine, at: '/', constraints: RailsUrlShortener::HostConstraint`
+
 ## [0.15.0](https://github.com/a-chacon/rails-url-shortener/compare/rails_url_shortener/v0.14.0...rails_url_shortener/v0.15.0) (2026-04-23)
 
 ### Features
